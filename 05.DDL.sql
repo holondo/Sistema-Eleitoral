@@ -12,6 +12,7 @@ CREATE TABLE processo_judicial
 	num_processo SERIAL,
 	CPF VARCHAR(11),
 	status_procedente BOOL,
+	status_julgamento BOOL,
 	data_julgamento DATE,
 	
 	CONSTRAINT pk_processo_judicial PRIMARY KEY(num_processo),
@@ -142,4 +143,47 @@ CREATE TABLE CANDIDATURA
 	CONSTRAINT fk_candidatura_cargo FOREIGN KEY(nome_cargo, localidade) REFERENCES cargo(nome, localidade),
 	CONSTRAINT fk_candidatura_vice FOREIGN KEY(vice) REFERENCES candidato(CPF)
 );
+
+CREATE TABLE pleito
+(
+	cod_candidatura integer,
+	num_votos integer,
+	
+	CONSTRAINT pk_cod_candidatura PRIMARY KEY(cod_candidatura),
+	CONSTRAINT fk_candidatura FOREIGN KEY(cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura)
+	
+	
+);
+
+CREATE TABLE equipe_apoio
+(
+	cod_equipe_apoio serial,
+	cod_candidatura integer,
+	nome VARCHAR(100),
+	num_participantes integer,
+	ano integer,
+	
+	CONSTRAINT pk_cod_equipe_apoio PRIMARY KEY(cod_equipe_apoio),
+	CONSTRAINT fk_cod_candidatura FOREIGN KEY(cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura)
+)
+
+CREATE TABLE participante_equipe_apoio
+(
+	cod_participante serial,
+	CPF VARCHAR(11),
+	cod_candidatura integer,
+	ano integer,
+	
+	CONSTRAINT pk_participante_apoio PRIMARY KEY (cod_participante),
+	CONSTRAINT fk_participante_apoio FOREIGN KEY(CPF) REFERENCES individuo(CPF)
+)
+
+
+
+
+
+
+
+
+
 
