@@ -151,9 +151,7 @@ CREATE TABLE pleito
 	
 	CONSTRAINT pk_cod_candidatura PRIMARY KEY(cod_candidatura),
 	CONSTRAINT fk_candidatura FOREIGN KEY(cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura)
-	
-	
-);
+
 
 CREATE TABLE equipe_apoio
 (
@@ -177,6 +175,77 @@ CREATE TABLE participante_equipe_apoio
 	CONSTRAINT pk_participante_apoio PRIMARY KEY (cod_participante),
 	CONSTRAINT fk_participante_apoio FOREIGN KEY(CPF) REFERENCES individuo(CPF)
 )
+	
+	
+--------------------------------TRIGGERS---------------------------------------
+
+--1 -> VERIFICA SE CANDIDATO É FICHA LIMPA
+CREATE OR REPLACE FUNCTION individuo_to_candidato() RETURNS TRIGGER AS $individuo_to_candidato$
+DECLARE 
+	ficha BOOL;
+BEGIN
+	SELECT status_ficha INTO ficha FROM individuo WHERE CPF = NEW.CPF;
+	
+	IF ficha = FALSE THEN
+		RAISE EXCEPTION 'Um individuo  ficha suja não pode se candidatar';
+	END IF;
+	RETURN NEW;
+END;
+$individuo_to_candidato$ LANGUAGE plpgsql;
+
+CREATE TRIGGER check_individuo_to_candidato
+BEFORE INSERT ON candidato
+FOR EACH ROW EXECUTE PROCEDURE individuo_to_candidato();
+	
+
+--2 -> ATUALIZA STATUS FICHA LIMPA DO INDIVIDUO
+CREATE OR REPLACE FUNCTION processos_individuo() RETURNS TRIGGER AS $processos_individuo$
+BEGIN
+	
+	IF(TG_OP = 'DELETE') THEN
+		PERFORM * FROM processo_judicial WHERE CPF = OLD.CPF;
+		IF NOT FOUND THEN
+			UPDATE individuo SET status_ficha = TRUE WHERE CPF = OLD.CPF;
+		END IF;
+	ELSIF(TG_OP = 'UPDATE' OR TG_OP = 'INSERT') THEN
+		IF OLD.status_julgamento = TRUE THEN
+			IF OLD.data_julgamento >= (CURRENT_DATE - 5) THEN
+				UPDATE individuo SET status_ficha = FALSE WHERE CPF = OLD.CPF;
+			END IF;
+		END IF;
+	END IF;
+	
+	RETURN NULL;
+END;
+$processos_individuo$ LANGUAGE plpgsql;
+
+CREATE TRIGGER processos_individuo
+AFTER INSERT OR UPDATE OR DELETE ON processo_judicial
+FOR EACH ROW EXECUTE PROCEDURE processos_individuo();
+	
+	DROP TRIGGER processos_individuo ON processo_judicial
+
+--3 VERIFICA SE INDIVIDUO JA PARTICIPA DE EQUIPE DE APOIO
+CREATE OR REPLACE FUNCTION equipe_apoio_individuo() RETURNS TRIGGER AS $equipe_apoio_individuo$
+BEGIN
+	
+	PERFORM * FROM participante_equipe_apoio WHERE CPF = NEW.CPF;
+	IF FOUND THEN
+		RAISE EXCEPTION 'Individuo ja participa de uma equipe de apoio';
+	END IF
+	RETURN NEW;
+	
+END;
+$equipe_apoio_individuo$ LANGUAGE plpgsql;
+
+CREATE TRIGGER equipe_apoio_individuo
+BEFORE INSERT ON participante_equipe_apoio
+FOR EACH ROW EXECUTE PROCEDURE equipe_apoio_individuo();
+
+
+
+
+
 
 
 
