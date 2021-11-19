@@ -21,7 +21,7 @@ CREATE TABLE processo_judicial
 
 CREATE TABLE partido
 (
-	cod_partido SERIAL,
+	cod_partido integer,
 	nome VARCHAR(100) NOT NULL,
 	
 	CONSTRAINT pk_partido PRIMARY KEY(cod_partido)
@@ -55,18 +55,18 @@ CREATE TABLE individuo_juridico
 	CONSTRAINT pk_juridico PRIMARY KEY(CNPJ)
 );
 
-CREATE TABLE doador_campanha
-(
-	cod_doador serial,
-	CPF VARCHAR(11),
-	CNPJ VARCHAR(14),
-	tipo BOOL,
+-- CREATE TABLE doador_campanha
+-- (
+-- 	CPF VARCHAR(11),
+-- 	CNPJ VARCHAR(14),
+-- 	tipo BOOL,
 	
-	CHECK((CPF != NULL and CNPJ = NULL and tipo = FALSE) or (CPF = NULL and CNPJ != NULL and tipo = TRUE)),
-	CONSTRAINT pk_doador PRIMARY KEY(cod_doador),
-	CONSTRAINT fk_doador_fisico FOREIGN KEY(CPF) REFERENCES individuo(CPF),
-	CONSTRAINT fk_doador_juridico FOREIGN KEY(CNPJ) REFERENCES individuo_juridico(CNPJ)
-);
+-- 	CONSTRAINT pk_doador PRIMARY KEY(CPF),
+-- 	CONSTRAINT fk_doador_fisico FOREIGN KEY(CPF) REFERENCES individuo(CPF),
+-- 	CONSTRAINT fk_doador_juridico FOREIGN KEY(CNPJ) REFERENCES individuo_juridico(CNPJ),
+-- 	CHECK((CPF != NULL and CNPJ = NULL and tipo = FALSE) or (CPF = NULL and CNPJ != NULL and tipo = TRUE))
+-- );
+
 
 CREATE DOMAIN tipo_localidade
 as VARCHAR(9)
@@ -127,14 +127,14 @@ CREATE TABLE cargo
 	CONSTRAINT fk_localidade_cargo FOREIGN KEY(localidade) references localidade(id)
 );
 
---------------------------CANDIDATURA------------------
+-- --------------------------CANDIDATURA------------------
 CREATE TABLE CANDIDATURA
 (
 	cod_candidatura serial,
 	nome_cargo varchar(100),
 	localidade integer,
 	CPF_candidato varchar(11),
-	ano INTEGER NOT NULL,
+	ano integer NOT NULL,
 	vice varchar(11),
 	
 	CONSTRAINT pk_candidatura PRIMARY KEY(cod_candidatura),
@@ -144,6 +144,18 @@ CREATE TABLE CANDIDATURA
 	CONSTRAINT fk_candidatura_vice FOREIGN KEY(vice) REFERENCES candidato(CPF)
 );
 
+-- CREATE TABLE doacao_campanha
+-- (
+-- 	cod_doacao serial,
+-- 	cod_doador varchar(11),
+-- 	cod_candidatura integer,
+-- 	valor real,
+	
+-- 	CONSTRAINT pk_cod_doacao PRIMARY KEY (cod_doacao),
+-- 	CONSTRAINT fk_cod_candidatura FOREIGN KEY (cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura) ,
+-- 	CONSTRAINT fk_cod_doador FOREIGN KEY(cod_doador) REFERENCES doador_campanha(CPF)
+-- )
+
 CREATE TABLE pleito
 (
 	cod_candidatura integer,
@@ -152,18 +164,19 @@ CREATE TABLE pleito
 	CONSTRAINT pk_cod_candidatura PRIMARY KEY(cod_candidatura),
 	CONSTRAINT fk_candidatura FOREIGN KEY(cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura)
 
-
-CREATE TABLE equipe_apoio
-(
-	cod_equipe_apoio serial,
-	cod_candidatura integer,
-	nome VARCHAR(100),
-	num_participantes integer,
-	ano integer,
-	
-	CONSTRAINT pk_cod_equipe_apoio PRIMARY KEY(cod_equipe_apoio),
-	CONSTRAINT fk_cod_candidatura FOREIGN KEY(cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura)
 )
+
+-- CREATE TABLE equipe_apoio
+-- (
+-- 	cod_equipe_apoio serial,
+-- 	cod_candidatura integer,
+-- 	nome VARCHAR(100),
+-- 	num_participantes integer,
+-- 	ano integer,
+	
+-- 	CONSTRAINT pk_cod_equipe_apoio PRIMARY KEY(cod_equipe_apoio),
+-- 	CONSTRAINT fk_cod_candidatura FOREIGN KEY(cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura)
+-- )
 
 CREATE TABLE participante_equipe_apoio
 (
@@ -172,14 +185,15 @@ CREATE TABLE participante_equipe_apoio
 	cod_candidatura integer,
 	ano integer,
 	
-	CONSTRAINT pk_participante_apoio PRIMARY KEY (cod_participante),
+	CONSTRAINT pk_participante_apoio PRIMARY KEY (CPF),
 	CONSTRAINT fk_participante_apoio FOREIGN KEY(CPF) REFERENCES individuo(CPF)
+	CONSTRAINT fk_candidatura_ano FOREIGN KEY(cod_candidatura, ano) REFERENCES candidatura(cod_candidatura, ano)
 )
 	
 	
---------------------------------TRIGGERS---------------------------------------
+-- --------------------------------TRIGGERS---------------------------------------
 
---1 -> VERIFICA SE CANDIDATO É FICHA LIMPA
+-- --1 -> VERIFICA SE CANDIDATO É FICHA LIMPA
 CREATE OR REPLACE FUNCTION individuo_to_candidato() RETURNS TRIGGER AS $individuo_to_candidato$
 DECLARE 
 	ficha BOOL;
@@ -198,7 +212,7 @@ BEFORE INSERT ON candidato
 FOR EACH ROW EXECUTE PROCEDURE individuo_to_candidato();
 	
 
---2 -> ATUALIZA STATUS FICHA LIMPA DO INDIVIDUO
+-- --2 -> ATUALIZA STATUS FICHA LIMPA DO INDIVIDUO
 CREATE OR REPLACE FUNCTION processos_individuo() RETURNS TRIGGER AS $processos_individuo$
 BEGIN
 	
@@ -222,10 +236,8 @@ $processos_individuo$ LANGUAGE plpgsql;
 CREATE TRIGGER processos_individuo
 AFTER INSERT OR UPDATE OR DELETE ON processo_judicial
 FOR EACH ROW EXECUTE PROCEDURE processos_individuo();
-	
-	DROP TRIGGER processos_individuo ON processo_judicial
 
---3 VERIFICA SE INDIVIDUO JA PARTICIPA DE EQUIPE DE APOIO
+-- --3 VERIFICA SE INDIVIDUO JA PARTICIPA DE EQUIPE DE APOIO
 CREATE OR REPLACE FUNCTION equipe_apoio_individuo() RETURNS TRIGGER AS $equipe_apoio_individuo$
 BEGIN
 	
@@ -241,6 +253,48 @@ $equipe_apoio_individuo$ LANGUAGE plpgsql;
 CREATE TRIGGER equipe_apoio_individuo
 BEFORE INSERT ON participante_equipe_apoio
 FOR EACH ROW EXECUTE PROCEDURE equipe_apoio_individuo();
+	
+-- --4 VERIFICA SE DOADOR JA DOOU PARA CANDIDATURA
+	CREATE OR REPLACE FUNCTION doacao_campanha() RETURNS TRIGGER AS $doacao_campanha$
+BEGIN
+	
+	IF (SELECT tipo FROM doador_campanha WHERE cpf_doador = NEW.cod_doador) = FALSE THEN
+		PERFORM * FROM doacao_campanha WHERE cod_doador = NEW.cod_doador;
+		IF FOUND THEN
+			RAISE EXCEPTION 'Individuo ja doou para uma campanha este ano';
+		END IF;
+	END IF;
+	RETURN NEW;
+	
+END;
+$doacao_campanha$ LANGUAGE plpgsql;
+
+CREATE TRIGGER doacao_campanha
+BEFORE INSERT ON doacao_campanha
+FOR EACH ROW EXECUTE PROCEDURE doacao_campanha();
+
+-- --5 ATUALIZA LOCALIDADE
+CREATE OR REPLACE FUNCTION cidade_to_localidade() RETURNS TRIGGER AS $cidade_to_localidade$
+BEGIN
+
+	INSERT INTO localidade VALUES (DEFAULT, 'cidade', 1000);
+	NEW.id = (select max(localidade.id) from localidade);
+	
+	RETURN NEW;
+END;
+$cidade_to_localidade$ LANGUAGE plpgsql;
+
+CREATE TRIGGER cidade_to_localidade
+BEFORE INSERT ON cidade
+FOR EACH ROW EXECUTE PROCEDURE cidade_to_localidade();
+
+
+
+
+
+
+
+
 
 
 
