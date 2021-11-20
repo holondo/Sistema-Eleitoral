@@ -12,12 +12,6 @@ CREATE TABLE individuo
 	CONSTRAINT pk_individuo PRIMARY KEY(CPF) 
 );
 
-INSERT INTO individuo VALUES('Joao', '11111');
-INSERT INTO individuo VALUES('Maria', '11112');
-INSERT INTO individuo VALUES('Jose', '11113');
-INSERT INTO individuo VALUES('Antonio', '11114');
-
-select * from individuo
 
 CREATE TABLE processo_judicial
 (
@@ -31,11 +25,6 @@ CREATE TABLE processo_judicial
 	CONSTRAINT fk_individuo_processo FOREIGN KEY(CPF) REFERENCES individuo(CPF)
 );
 
-INSERT INTO processo_judicial VALUES(default, '11111', true, CURRENT_DATE - 2);
-INSERT INTO processo_judicial VALUES(default, '11112', true, CURRENT_DATE - 6);
-INSERT INTO processo_judicial VALUES(default, '11113', true, CURRENT_DATE);
-
-select * from processo_judicial
 
 CREATE TABLE partido
 (
@@ -44,12 +33,6 @@ CREATE TABLE partido
 	
 	CONSTRAINT pk_partido PRIMARY KEY(cod_partido)
 );
-
-INSERT INTO partido VALUES(133, 'PTC');
-INSERT INTO partido VALUES(172, 'PTV');
-INSERT INTO partido VALUES(321, 'PTA');
-
-select * from partido
 
 CREATE TABLE candidato
 (
@@ -62,12 +45,6 @@ CREATE TABLE candidato
 	
 );
 
-INSERT INTO candidato VALUES('11111', 133);
-INSERT INTO candidato VALUES('11112', 172);
-INSERT INTO candidato VALUES('11113', 321);
-INSERT INTO candidato VALUES('11114', 321);
-
-select * from candidato
 
 CREATE TABLE programa_partido
 (
@@ -78,11 +55,6 @@ CREATE TABLE programa_partido
 	CONSTRAINT fk_programa_partido FOREIGN KEY(cod_partido) REFERENCES partido(cod_partido)
 );
 
-INSERT INTO programa_partido VALUES(133, 'Partido Trabalho Comunista');
-INSERT INTO programa_partido VALUES(172, 'Partido Trabalhador Verde');
-INSERT INTO programa_partido VALUES(321, 'Partido Teologo Aspirante');
-
-select * from programa_partido
 
 CREATE TABLE individuo_juridico
 (
@@ -91,12 +63,6 @@ CREATE TABLE individuo_juridico
 	
 	CONSTRAINT pk_juridico PRIMARY KEY(CNPJ)
 );
-
-INSERT INTO individuo_juridico VALUES('000001', 'lojinha da esquina');
-INSERT INTO individuo_juridico VALUES('000002', 'mecanico de autos');
-INSERT INTO individuo_juridico VALUES('000003', 'cabeleleira leila');
-
-select * from individuo_juridico
 
 
 -- CREATE TABLE doador_campanha
@@ -137,7 +103,6 @@ CREATE TABLE federacao
 CREATE DOMAIN UnidadeFederativa AS VARCHAR(2)
 CHECK (VALUE IN ('RJ','SP','ES','MG','PR','SC','RS','MS','GO','AC','AL','AP','AM','BA','CE','DF','MA','MT','PA','PB','PE','PI','RN','RO','RR','SE','TO'));
 
-INSERT INTO federacao VALUES(1, 'Brasil');
 
 CREATE TABLE estado
 (
@@ -150,9 +115,6 @@ CREATE TABLE estado
 	CONSTRAINT un_UF UNIQUE(UF)
 );
 
-INSERT INTO estado VALUES(1, 'SP', 'Sao Paulo');
-INSERT INTO estado VALUES(1, 'MG', 'Minas Gerais');
-INSERT INTO estado VALUES(1, 'RJ', 'Rio de Janeiro');
 
 CREATE TABLE cidade
 (
@@ -166,12 +128,6 @@ CREATE TABLE cidade
 	CONSTRAINT un_cidade_uf UNIQUE(nome, UF)
 );
 
-INSERT INTO cidade VALUES(1, 'Americana','SP');
-INSERT INTO cidade VALUES(1, 'Valinhos','MG');
-INSERT INTO cidade VALUES(1, 'SBO', 'SP');
-
-select * from cidade
-
 
 CREATE TABLE cargo
 (
@@ -182,12 +138,6 @@ CREATE TABLE cargo
 	CONSTRAINT pk_cargo PRIMARY KEY(nome, localidade),
 	CONSTRAINT fk_localidade_cargo FOREIGN KEY(localidade) references localidade(id)
 );
-
-INSERT INTO cargo VALUES('presidente', 1);
-INSERT INTO cargo VALUES('prefeito', 3);
-INSERT INTO cargo VALUES('deputado', 6);
-
-select * from cargo
 
 -- --------------------------CANDIDATURA------------------
 CREATE TABLE CANDIDATURA
@@ -206,9 +156,6 @@ CREATE TABLE CANDIDATURA
 	CONSTRAINT fk_candidatura_vice FOREIGN KEY(vice) REFERENCES candidato(CPF)
 );
 
-INSERT INTO CANDIDATURA VALUES(DEFAULT, 'presidente', 1, '11112', 2021, '11114');
-
-select * from CANDIDATURA
 
 CREATE TABLE doacao_pf
 (
@@ -222,9 +169,6 @@ CREATE TABLE doacao_pf
 	CONSTRAINT fk_CPF_doacao FOREIGN KEY(CPF) REFERENCES individuo(CPF)
 );
 
-INSERT INTO doacao_pf VALUES(DEFAULT, '11111', 2, 111.14);
-
-select * from doacao_pf
 
 CREATE TABLE doacao_pj
 (
@@ -236,10 +180,6 @@ CREATE TABLE doacao_pj
 	CONSTRAINT fk_doacao_pj_candidatura FOREIGN KEY (cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura),
 	CONSTRAINT fk_CNPJ_doacao FOREIGN KEY(CNPJ) REFERENCES individuo_juridico(CNPJ)
 );
-
-INSERT INTO doacao_pj VALUES('000001', 2, 111.14);
-
-select * from doacao_pj
 
 -- CREATE TABLE doacao_campanha
 -- (
@@ -263,9 +203,6 @@ CREATE TABLE pleito
 
 );
 
-INSERT INTO pleito VALUES(2, 1110);
-
-select * from pleito
 
 -- CREATE TABLE equipe_apoio
 -- (
@@ -290,11 +227,6 @@ CREATE TABLE participante_equipe_apoio
 	CONSTRAINT fk_participante_apoio FOREIGN KEY(CPF) REFERENCES individuo(CPF),
 	CONSTRAINT fk_candidatura_ano FOREIGN KEY(cod_candidatura) REFERENCES candidatura(cod_candidatura)--trigger p/ ano
 );
-
-INSERT INTO participante_equipe_apoio VALUES(DEFAULT, '11112', 2, 2019);
-
-select * from participante_equipe_apoio
-	
 	
 -- --------------------------------TRIGGERS---------------------------------------
 
@@ -342,7 +274,6 @@ CREATE TRIGGER processos_individuo
 AFTER INSERT OR UPDATE OR DELETE ON processo_judicial
 FOR EACH ROW EXECUTE PROCEDURE processos_individuo();
 
-drop trigger processos_individuo on processo_judicial
 
 -- --3 VERIFICA SE INDIVIDUO JA PARTICIPA DE EQUIPE DE APOIO
 CREATE OR REPLACE FUNCTION equipe_apoio_individuo() RETURNS TRIGGER AS $equipe_apoio_individuo$
@@ -452,7 +383,7 @@ BEGIN
 				UPDATE individuo SET TIPO = 'Candidato' WHERE CPF = NEW.CPF;
 			END IF;
 		ELSIF(TG_OP = 'DELETE') THEN
-			UPDATE individuo SET TIPO = 'Sem função' WHERE CPF = NEW.CPF;
+			UPDATE individuo SET TIPO = 'Sem função' WHERE CPF = OLD.CPF;
 		END IF;
 
     RETURN NEW;
@@ -473,7 +404,7 @@ BEGIN
 				UPDATE individuo SET TIPO = 'Apoio' WHERE CPF = NEW.CPF;
 			END IF;
 		ELSIF(TG_OP = 'DELETE') THEN
-			UPDATE individuo SET TIPO = 'Sem função' WHERE CPF = NEW.CPF;
+			UPDATE individuo SET TIPO = 'Sem função' WHERE CPF = OLD.CPF;
 		END IF;
 
     RETURN NEW;
@@ -494,7 +425,7 @@ BEGIN
 				UPDATE individuo SET TIPO = 'Doador' WHERE CPF = NEW.CPF;
 			END IF;
 		ELSIF(TG_OP = 'DELETE') THEN
-			UPDATE individuo SET TIPO = 'Sem função' WHERE CPF = NEW.CPF;
+			UPDATE individuo SET TIPO = 'Sem função' WHERE CPF = OLD.CPF;
 		END IF;
 
     RETURN NEW;
@@ -502,9 +433,62 @@ END;
 $individuo_doacao$ LANGUAGE plpgsql;
 
 CREATE TRIGGER individuo_doacao
-BEFORE INSERT OR DELETE ON doacao_pj
+BEFORE INSERT OR DELETE ON doacao_pf
 
 FOR EACH ROW EXECUTE PROCEDURE individuo_doacao();
+
+
+-----------------INSERT -------------------
+INSERT INTO individuo VALUES('Joao', '11111');
+INSERT INTO individuo VALUES('Maria', '11112');
+INSERT INTO individuo VALUES('Jose', '11113');
+INSERT INTO individuo VALUES('Antonio', '11114');
+
+INSERT INTO processo_judicial VALUES(default, '11111', true, CURRENT_DATE - 2);
+INSERT INTO processo_judicial VALUES(default, '11112', true, CURRENT_DATE - 6);
+INSERT INTO processo_judicial VALUES(default, '11113', true, CURRENT_DATE);
+
+INSERT INTO partido VALUES(133, 'PTC');
+INSERT INTO partido VALUES(172, 'PTV');
+INSERT INTO partido VALUES(321, 'PTA');
+
+select * from individuo 
+inner join processo_judicial pj on pj.CPF = individuo.CPF; 
+
+INSERT INTO candidato VALUES('11112', 172);
+INSERT INTO candidato VALUES('11114', 321);
+
+INSERT INTO programa_partido VALUES(133, 'Partido Trabalho Comunista');
+INSERT INTO programa_partido VALUES(172, 'Partido Trabalhador Verde');
+INSERT INTO programa_partido VALUES(321, 'Partido Teologo Aspirante');
+
+INSERT INTO individuo_juridico VALUES('000001', 'lojinha da esquina');
+INSERT INTO individuo_juridico VALUES('000002', 'mecanico de autos');
+INSERT INTO individuo_juridico VALUES('000003', 'cabeleleira leila');
+
+INSERT INTO federacao VALUES(1, 'Brasil');
+
+INSERT INTO estado VALUES(1, 'SP', 'Sao Paulo');
+INSERT INTO estado VALUES(1, 'MG', 'Minas Gerais');
+INSERT INTO estado VALUES(1, 'RJ', 'Rio de Janeiro');
+
+INSERT INTO cidade VALUES(1, 'Americana','SP');
+INSERT INTO cidade VALUES(1, 'Valinhos','MG');
+INSERT INTO cidade VALUES(1, 'SBO', 'SP');
+
+INSERT INTO cargo VALUES('presidente', 1);
+INSERT INTO cargo VALUES('prefeito', 3);
+INSERT INTO cargo VALUES('deputado', 6);
+
+INSERT INTO CANDIDATURA VALUES(DEFAULT, 'presidente', 1, '11112', 2021, '11114');
+
+INSERT INTO doacao_pf VALUES(DEFAULT, '11111', 1, 111.14);
+
+INSERT INTO doacao_pj VALUES('000001', 1, 111.14);
+
+INSERT INTO pleito VALUES(1, 1110);
+
+INSERT INTO participante_equipe_apoio VALUES(DEFAULT, '11113', 1, 2019);
 
 
 
