@@ -1,11 +1,23 @@
+
+CREATE DOMAIN papel AS VARCHAR(10)
+CHECK (VALUE IN ('Apoio','Doador','Candidato','Sem função'));
+
 CREATE TABLE individuo
 (
 	nome VARCHAR(100) NOT NULL,
 	CPF VARCHAR(11),
-	status_ficha bool default true,
+	status_limpa bool default true,
+	tipo VARCHAR(100) default 'Sem função',
 	
 	CONSTRAINT pk_individuo PRIMARY KEY(CPF) 
 );
+
+INSERT INTO individuo VALUES('Joao', '11111');
+INSERT INTO individuo VALUES('Maria', '11112');
+INSERT INTO individuo VALUES('Jose', '11113');
+INSERT INTO individuo VALUES('Antonio', '11114');
+
+select * from individuo
 
 CREATE TABLE processo_judicial
 (
@@ -19,6 +31,12 @@ CREATE TABLE processo_judicial
 	CONSTRAINT fk_individuo_processo FOREIGN KEY(CPF) REFERENCES individuo(CPF)
 );
 
+INSERT INTO processo_judicial VALUES(default, '11111', true, CURRENT_DATE - 2);
+INSERT INTO processo_judicial VALUES(default, '11112', true, CURRENT_DATE - 6);
+INSERT INTO processo_judicial VALUES(default, '11113', true, CURRENT_DATE);
+
+select * from processo_judicial
+
 CREATE TABLE partido
 (
 	cod_partido integer,
@@ -26,6 +44,12 @@ CREATE TABLE partido
 	
 	CONSTRAINT pk_partido PRIMARY KEY(cod_partido)
 );
+
+INSERT INTO partido VALUES(133, 'PTC');
+INSERT INTO partido VALUES(172, 'PTV');
+INSERT INTO partido VALUES(321, 'PTA');
+
+select * from partido
 
 CREATE TABLE candidato
 (
@@ -38,6 +62,13 @@ CREATE TABLE candidato
 	
 );
 
+INSERT INTO candidato VALUES('11111', 133);
+INSERT INTO candidato VALUES('11112', 172);
+INSERT INTO candidato VALUES('11113', 321);
+INSERT INTO candidato VALUES('11114', 321);
+
+select * from candidato
+
 CREATE TABLE programa_partido
 (
 	cod_partido integer,
@@ -47,6 +78,12 @@ CREATE TABLE programa_partido
 	CONSTRAINT fk_programa_partido FOREIGN KEY(cod_partido) REFERENCES partido(cod_partido)
 );
 
+INSERT INTO programa_partido VALUES(133, 'Partido Trabalho Comunista');
+INSERT INTO programa_partido VALUES(172, 'Partido Trabalhador Verde');
+INSERT INTO programa_partido VALUES(321, 'Partido Teologo Aspirante');
+
+select * from programa_partido
+
 CREATE TABLE individuo_juridico
 (
 	CNPJ VARCHAR(14),
@@ -54,6 +91,13 @@ CREATE TABLE individuo_juridico
 	
 	CONSTRAINT pk_juridico PRIMARY KEY(CNPJ)
 );
+
+INSERT INTO individuo_juridico VALUES('000001', 'lojinha da esquina');
+INSERT INTO individuo_juridico VALUES('000002', 'mecanico de autos');
+INSERT INTO individuo_juridico VALUES('000003', 'cabeleleira leila');
+
+select * from individuo_juridico
+
 
 -- CREATE TABLE doador_campanha
 -- (
@@ -67,7 +111,7 @@ CREATE TABLE individuo_juridico
 -- 	CHECK((CPF != NULL and CNPJ = NULL and tipo = FALSE) or (CPF = NULL and CNPJ != NULL and tipo = TRUE))
 -- );
 
-drop table doador_campanha;
+
 CREATE DOMAIN tipo_localidade
 as VARCHAR(9)
 CHECK(VALUE in ('cidade', 'estado', 'federacao'));
@@ -76,7 +120,6 @@ CREATE TABLE localidade
 (
 	id serial,
 	tipo tipo_localidade NOT NULL,
-	num_habitantes integer,
 	
 	CONSTRAINT pk_localidade PRIMARY KEY(id)
 );
@@ -94,6 +137,8 @@ CREATE TABLE federacao
 CREATE DOMAIN UnidadeFederativa AS VARCHAR(2)
 CHECK (VALUE IN ('RJ','SP','ES','MG','PR','SC','RS','MS','GO','AC','AL','AP','AM','BA','CE','DF','MA','MT','PA','PB','PE','PI','RN','RO','RR','SE','TO'));
 
+INSERT INTO federacao VALUES(1, 'Brasil');
+
 CREATE TABLE estado
 (
 	id integer,
@@ -104,6 +149,10 @@ CREATE TABLE estado
 	CONSTRAINT fk_estado FOREIGN KEY(id) REFERENCES localidade(id),
 	CONSTRAINT un_UF UNIQUE(UF)
 );
+
+INSERT INTO estado VALUES(1, 'SP', 'Sao Paulo');
+INSERT INTO estado VALUES(1, 'MG', 'Minas Gerais');
+INSERT INTO estado VALUES(1, 'RJ', 'Rio de Janeiro');
 
 CREATE TABLE cidade
 (
@@ -117,6 +166,13 @@ CREATE TABLE cidade
 	CONSTRAINT un_cidade_uf UNIQUE(nome, UF)
 );
 
+INSERT INTO cidade VALUES(1, 'Americana','SP');
+INSERT INTO cidade VALUES(1, 'Valinhos','MG');
+INSERT INTO cidade VALUES(1, 'SBO', 'SP');
+
+select * from cidade
+
+
 CREATE TABLE cargo
 (
 	nome VARCHAR(100),
@@ -126,6 +182,12 @@ CREATE TABLE cargo
 	CONSTRAINT pk_cargo PRIMARY KEY(nome, localidade),
 	CONSTRAINT fk_localidade_cargo FOREIGN KEY(localidade) references localidade(id)
 );
+
+INSERT INTO cargo VALUES('presidente', 1);
+INSERT INTO cargo VALUES('prefeito', 3);
+INSERT INTO cargo VALUES('deputado', 6);
+
+select * from cargo
 
 -- --------------------------CANDIDATURA------------------
 CREATE TABLE CANDIDATURA
@@ -144,6 +206,10 @@ CREATE TABLE CANDIDATURA
 	CONSTRAINT fk_candidatura_vice FOREIGN KEY(vice) REFERENCES candidato(CPF)
 );
 
+INSERT INTO CANDIDATURA VALUES(DEFAULT, 'presidente', 1, '11112', 2021, '11114');
+
+select * from CANDIDATURA
+
 CREATE TABLE doacao_pf
 (
 	cod_doacao serial,
@@ -154,7 +220,11 @@ CREATE TABLE doacao_pf
 	CONSTRAINT pk_cod_doacao PRIMARY KEY (cod_doacao),
 	CONSTRAINT fk_doacao_pf_candidatura FOREIGN KEY (cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura),
 	CONSTRAINT fk_CPF_doacao FOREIGN KEY(CPF) REFERENCES individuo(CPF)
-)
+);
+
+INSERT INTO doacao_pf VALUES(DEFAULT, '11111', 2, 111.14);
+
+select * from doacao_pf
 
 CREATE TABLE doacao_pj
 (
@@ -165,7 +235,11 @@ CREATE TABLE doacao_pj
 	CONSTRAINT pk_CNPJ_candidatura PRIMARY KEY (CNPJ, cod_candidatura),
 	CONSTRAINT fk_doacao_pj_candidatura FOREIGN KEY (cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura),
 	CONSTRAINT fk_CNPJ_doacao FOREIGN KEY(CNPJ) REFERENCES individuo_juridico(CNPJ)
-)
+);
+
+INSERT INTO doacao_pj VALUES('000001', 2, 111.14);
+
+select * from doacao_pj
 
 -- CREATE TABLE doacao_campanha
 -- (
@@ -187,7 +261,11 @@ CREATE TABLE pleito
 	CONSTRAINT pk_cod_candidatura PRIMARY KEY(cod_candidatura),
 	CONSTRAINT fk_candidatura FOREIGN KEY(cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura)
 
-)
+);
+
+INSERT INTO pleito VALUES(2, 1110);
+
+select * from pleito
 
 -- CREATE TABLE equipe_apoio
 -- (
@@ -206,12 +284,16 @@ CREATE TABLE participante_equipe_apoio
 	cod_participante serial,
 	CPF VARCHAR(11),
 	cod_candidatura integer,
-	ano integer,
+	ano integer DEFAULT 0,
 	
 	CONSTRAINT pk_participante_apoio PRIMARY KEY (CPF, ano),
 	CONSTRAINT fk_participante_apoio FOREIGN KEY(CPF) REFERENCES individuo(CPF),
 	CONSTRAINT fk_candidatura_ano FOREIGN KEY(cod_candidatura) REFERENCES candidatura(cod_candidatura)--trigger p/ ano
-)
+);
+
+INSERT INTO participante_equipe_apoio VALUES(DEFAULT, '11112', 2, 2019);
+
+select * from participante_equipe_apoio
 	
 	
 -- --------------------------------TRIGGERS---------------------------------------
@@ -221,7 +303,7 @@ CREATE OR REPLACE FUNCTION individuo_to_candidato() RETURNS TRIGGER AS $individu
 DECLARE 
 	ficha BOOL;
 BEGIN
-	SELECT status_ficha INTO ficha FROM individuo WHERE CPF = NEW.CPF;
+	SELECT status_limpa INTO ficha FROM individuo WHERE CPF = NEW.CPF;
 	
 	IF ficha = FALSE THEN
 		RAISE EXCEPTION 'Um individuo  ficha suja não pode se candidatar';
@@ -242,12 +324,12 @@ BEGIN
 	IF(TG_OP = 'DELETE') THEN
 		PERFORM * FROM processo_judicial WHERE CPF = OLD.CPF;
 		IF NOT FOUND THEN
-			UPDATE individuo SET status_ficha = TRUE WHERE CPF = OLD.CPF;
+			UPDATE individuo SET status_limpa = TRUE WHERE CPF = OLD.CPF;
 		END IF;
 	ELSIF(TG_OP = 'UPDATE' OR TG_OP = 'INSERT') THEN
-		IF OLD.status_julgamento = TRUE THEN
-			IF OLD.data_julgamento >= (CURRENT_DATE - 5) THEN
-				UPDATE individuo SET status_ficha = FALSE WHERE CPF = OLD.CPF;
+		IF NEW.status_procedente = TRUE THEN
+			IF NEW.data_julgamento >= (CURRENT_DATE - 5) THEN
+				UPDATE individuo SET status_limpa = FALSE WHERE CPF = NEW.CPF;
 			END IF;
 		END IF;
 	END IF;
@@ -259,6 +341,8 @@ $processos_individuo$ LANGUAGE plpgsql;
 CREATE TRIGGER processos_individuo
 AFTER INSERT OR UPDATE OR DELETE ON processo_judicial
 FOR EACH ROW EXECUTE PROCEDURE processos_individuo();
+
+drop trigger processos_individuo on processo_judicial
 
 -- --3 VERIFICA SE INDIVIDUO JA PARTICIPA DE EQUIPE DE APOIO
 CREATE OR REPLACE FUNCTION equipe_apoio_individuo() RETURNS TRIGGER AS $equipe_apoio_individuo$
@@ -278,29 +362,29 @@ BEFORE INSERT ON participante_equipe_apoio
 FOR EACH ROW EXECUTE PROCEDURE equipe_apoio_individuo();
 	
 -- --4 VERIFICA SE DOADOR JA DOOU PARA CANDIDATURA
-	CREATE OR REPLACE FUNCTION doacao_campanha() RETURNS TRIGGER AS $doacao_campanha$
-BEGIN
+-- 	CREATE OR REPLACE FUNCTION doacao_campanha() RETURNS TRIGGER AS $doacao_campanha$
+-- BEGIN
 	
-	IF (SELECT tipo FROM doador_campanha WHERE cpf_doador = NEW.cod_doador) = FALSE THEN
-		PERFORM * FROM doacao_campanha WHERE cod_doador = NEW.cod_doador;
-		IF FOUND THEN
-			RAISE EXCEPTION 'Individuo ja doou para uma campanha este ano';
-		END IF;
-	END IF;
-	RETURN NEW;
+-- 	IF (SELECT tipo FROM doador_campanha WHERE cpf_doador = NEW.cod_doador) = FALSE THEN
+-- 		PERFORM * FROM doacao_campanha WHERE cod_doador = NEW.cod_doador;
+-- 		IF FOUND THEN
+-- 			RAISE EXCEPTION 'Individuo ja doou para uma campanha este ano';
+-- 		END IF;
+-- 	END IF;
+-- 	RETURN NEW;
 	
-END;
-$doacao_campanha$ LANGUAGE plpgsql;
+-- END;
+-- $doacao_campanha$ LANGUAGE plpgsql;
 
-CREATE TRIGGER doacao_campanha
-BEFORE INSERT ON doacao_campanha
-FOR EACH ROW EXECUTE PROCEDURE doacao_campanha();
+-- CREATE TRIGGER doacao_campanha
+-- BEFORE INSERT ON doacao_campanha
+-- FOR EACH ROW EXECUTE PROCEDURE doacao_campanha();
 
 -- --5 ATUALIZA LOCALIDADE
 CREATE OR REPLACE FUNCTION cidade_to_localidade() RETURNS TRIGGER AS $cidade_to_localidade$
 BEGIN
 
-	INSERT INTO localidade VALUES (DEFAULT, 'cidade', 1000);
+	INSERT INTO localidade VALUES (DEFAULT, 'cidade');
 	NEW.id = (select max(localidade.id) from localidade);
 	
 	RETURN NEW;
@@ -315,7 +399,7 @@ FOR EACH ROW EXECUTE PROCEDURE cidade_to_localidade();
 CREATE OR REPLACE FUNCTION estado_to_localidade() RETURNS TRIGGER AS $estado_to_localidade$
 BEGIN
 
-	INSERT INTO localidade VALUES (DEFAULT, 'estado', 1000);
+	INSERT INTO localidade VALUES (DEFAULT, 'estado');
 	NEW.id = (select max(localidade.id) from localidade);
 	
 	RETURN NEW;
@@ -330,7 +414,7 @@ FOR EACH ROW EXECUTE PROCEDURE estado_to_localidade();
 CREATE OR REPLACE FUNCTION federacao_to_localidade() RETURNS TRIGGER AS $federacao_to_localidade$
 BEGIN
 
-	INSERT INTO localidade VALUES (DEFAULT, 'federacao', 1000);
+	INSERT INTO localidade VALUES (DEFAULT, 'federacao');
 	NEW.id = (select max(localidade.id) from localidade);
 	
 	RETURN NEW;
@@ -341,7 +425,7 @@ CREATE TRIGGER federacao_to_localidade
 BEFORE INSERT ON federacao
 FOR EACH ROW EXECUTE PROCEDURE federacao_to_localidade();
 
---
+-- --8 SETA ANO DO APOIO DE ACORDO COM CANDIDATURA
 CREATE OR REPLACE FUNCTION apoio_candidatura() RETURNS TRIGGER AS $apoio_candidatura$
 DECLARE 
     ano_candidatura integer;
@@ -357,3 +441,73 @@ CREATE TRIGGER apoio_candidatura
 BEFORE INSERT ON participante_equipe_apoio
 
 FOR EACH ROW EXECUTE PROCEDURE apoio_candidatura();
+
+-- --9 VERIFICA SE JA EXISTE DADO
+CREATE OR REPLACE FUNCTION individuo_candidato() RETURNS TRIGGER AS $individuo_candidato$
+BEGIN
+    	IF(TG_OP = 'INSERT') THEN
+			IF (SELECT tipo FROM individuo WHERE CPF = NEW.CPF) != 'Sem função' THEN
+				RAISE EXCEPTION 'Individuo com outras função ja determinada';
+			ELSE
+				UPDATE individuo SET TIPO = 'Candidato' WHERE CPF = NEW.CPF;
+			END IF;
+		ELSIF(TG_OP = 'DELETE') THEN
+			UPDATE individuo SET TIPO = 'Sem função' WHERE CPF = NEW.CPF;
+		END IF;
+
+    RETURN NEW;
+END;
+$individuo_candidato$ LANGUAGE plpgsql;
+
+CREATE TRIGGER individuo_candidato
+BEFORE INSERT OR DELETE ON candidato
+
+FOR EACH ROW EXECUTE PROCEDURE individuo_candidato();
+
+CREATE OR REPLACE FUNCTION individuo_apoio() RETURNS TRIGGER AS $individuo_apoio$
+BEGIN
+    	IF(TG_OP = 'INSERT') THEN
+			IF (SELECT tipo FROM individuo WHERE CPF = NEW.CPF) != 'Sem função' THEN
+				RAISE EXCEPTION 'Individuo com outras função ja determinada';
+			ELSE
+				UPDATE individuo SET TIPO = 'Apoio' WHERE CPF = NEW.CPF;
+			END IF;
+		ELSIF(TG_OP = 'DELETE') THEN
+			UPDATE individuo SET TIPO = 'Sem função' WHERE CPF = NEW.CPF;
+		END IF;
+
+    RETURN NEW;
+END;
+$individuo_apoio$ LANGUAGE plpgsql;
+
+CREATE TRIGGER individuo_apoio
+BEFORE INSERT OR DELETE ON participante_equipe_apoio
+
+FOR EACH ROW EXECUTE PROCEDURE individuo_apoio();
+
+CREATE OR REPLACE FUNCTION individuo_doacao() RETURNS TRIGGER AS $individuo_doacao$
+BEGIN
+    	IF(TG_OP = 'INSERT') THEN
+			IF (SELECT tipo FROM individuo WHERE CPF = NEW.CPF) != 'Sem função' THEN
+				RAISE EXCEPTION 'Individuo com outras função ja determinada';
+			ELSE
+				UPDATE individuo SET TIPO = 'Doador' WHERE CPF = NEW.CPF;
+			END IF;
+		ELSIF(TG_OP = 'DELETE') THEN
+			UPDATE individuo SET TIPO = 'Sem função' WHERE CPF = NEW.CPF;
+		END IF;
+
+    RETURN NEW;
+END;
+$individuo_doacao$ LANGUAGE plpgsql;
+
+CREATE TRIGGER individuo_doacao
+BEFORE INSERT OR DELETE ON doacao_pj
+
+FOR EACH ROW EXECUTE PROCEDURE individuo_doacao();
+
+
+
+
+
+
