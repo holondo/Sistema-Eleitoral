@@ -55,6 +55,32 @@ INSERT INTO participante_equipe_apoio VALUES(DEFAULT, '11113', 1, 2019);
 ----------------------------------------------------temp div-----------------------------------
 
 -- individuo (nome,CPF)
+--add examplos from federation
+INSERT INTO individuo VALUES('Maria Aparecida De Bonfim','00052991954');
+INSERT INTO individuo VALUES('Alvaro Fernandes Dias','00274003953');
+INSERT INTO individuo VALUES('Antonio Martins Annibelli','00293091900');
+INSERT INTO individuo VALUES('Baptista Leite Cavalcante','02122748800');
+INSERT INTO individuo VALUES('Ã‰rika Luciana Andreassy','02470073901');
+INSERT INTO individuo VALUES('Bernardo Seixas Pilotto','04750591904');
+INSERT INTO individuo VALUES('Izildinha Souza Dos Santos','00016867807');
+INSERT INTO individuo VALUES('Odmir Alves Pereira','00049151860');
+INSERT INTO individuo VALUES('Walter Aparecido Amarante','00593280881');
+INSERT INTO individuo VALUES('Sergio Contente','02607820847');
+INSERT INTO individuo VALUES('Gilberto Maringoni De Oliveira','03304550879');
+INSERT INTO individuo VALUES('Joao Duarte Pestana Barreto','03597285880');
+INSERT INTO individuo VALUES('Edmilson Silva Costa','04497643387');
+INSERT INTO individuo VALUES('Aparecida Carlota','00001650696');
+INSERT INTO individuo VALUES('Eduardo Pimentel Slaviero','00476417970');
+INSERT INTO individuo VALUES('XÃªnia Karoline Mello','04633274970');
+INSERT INTO individuo VALUES('Oscar Teixeira','00006903843');
+INSERT INTO individuo VALUES('Marcos Evangelista Da Silva','00177740710');
+INSERT INTO individuo VALUES('Mario Henrique Rogeri','00270667890');
+INSERT INTO individuo VALUES('Luiza Erundina De Sousa','00480584400');
+INSERT INTO individuo VALUES('Angelo Andrea Matarazzo','00752453882');
+INSERT INTO individuo VALUES('Diana Cury','02635658820');
+INSERT INTO individuo VALUES('Walcinyr Bragatto','02985812801');
+INSERT INTO individuo VALUES('Jonas Donizette Ferreira','09696450826');
+INSERT INTO individuo VALUES('Benedita Rosa Santana E Silva','11936731860');
 
 -- processo_judicial (default,CPF,status_procedente,data_julgamento)
 
@@ -97,6 +123,34 @@ INSERT INTO partido VALUES(30,'Partido Novo');
 INSERT INTO partido VALUES(80,'Unidade Popular');
 
 -- candidato (CPF,partido(int))
+--add examplos from federation
+
+INSERT INTO candidato VALUES('00052991954',19);
+INSERT INTO candidato VALUES('00274003953',45);
+INSERT INTO candidato VALUES('00293091900',15);
+INSERT INTO candidato VALUES('02122748800',28);
+INSERT INTO candidato VALUES('02470073901',16);
+INSERT INTO candidato VALUES('04750591904',50);
+INSERT INTO candidato VALUES('00016867807',10);
+INSERT INTO candidato VALUES('00049151860',40);
+INSERT INTO candidato VALUES('00593280881',28);
+INSERT INTO candidato VALUES('02607820847',31);
+INSERT INTO candidato VALUES('03304550879',50);
+INSERT INTO candidato VALUES('03597285880',31);
+INSERT INTO candidato VALUES('04497643387',21);
+INSERT INTO candidato VALUES('00001650696',27);
+INSERT INTO candidato VALUES('00476417970',45);
+INSERT INTO candidato VALUES('04633274970',50);
+INSERT INTO candidato VALUES('00006903843',44);
+INSERT INTO candidato VALUES('00177740710',10);
+INSERT INTO candidato VALUES('00270667890',90);
+INSERT INTO candidato VALUES('00480584400',50);
+INSERT INTO candidato VALUES('00752453882',55);
+INSERT INTO candidato VALUES('02635658820',15);
+INSERT INTO candidato VALUES('02985812801',43);
+INSERT INTO candidato VALUES('09696450826',40);
+INSERT INTO candidato VALUES('11936731860',31);
+
 
 -- programa_partido (cod_partido(int),descricao)
 INSERT INTO programa_partido VALUES(19,'PODE :  Partido Trabalhista Nacional :  Frente Popular Do Acre');
@@ -138,11 +192,10 @@ INSERT INTO programa_partido VALUES(80,'UP :  Unidade Popular :  ');
 
 --individuo_juridico (CNPJ,nome)
 
+
+--local
 INSERT INTO federacao VALUES(1, 'Brasil');
 
-INSERT INTO estado VALUES(1, 'SP', 'Sao Paulo');
-INSERT INTO estado VALUES(1, 'MG', 'Minas Gerais');
-INSERT INTO estado VALUES(1, 'RJ', 'Rio de Janeiro');
 INSERT INTO estado VALUES(1, 'AC','Acre');
 INSERT INTO estado VALUES(1, 'AL','Alagoas');
 INSERT INTO estado VALUES(1, 'AM','Amazonas');
@@ -178,6 +231,33 @@ INSERT INTO cidade VALUES(1, 'Curitiba', 'PR');
 
 
 --cargo (nome,localidade,quant_eleitos)
+--add federaçao
+INSERT INTO cargo VALUES('governador',19,1);
+INSERT INTO cargo VALUES('vice-governador',19,1);
+INSERT INTO cargo VALUES('senador',19,1);
+INSERT INTO cargo VALUES('deputado federal',19,30);
+INSERT INTO cargo VALUES('deputado estadual',19,54);
+INSERT INTO cargo VALUES('1 suplente',19,1);
+INSERT INTO cargo VALUES('2 suplente',19,1);
+INSERT INTO cargo VALUES('governador',27,1);
+INSERT INTO cargo VALUES('vice-governador',27,1);
+INSERT INTO cargo VALUES('senador',27,1);
+INSERT INTO cargo VALUES('deputado federal',27,70);
+INSERT INTO cargo VALUES('deputado estadual',27,94);
+INSERT INTO cargo VALUES('1 suplente',27,1);
+INSERT INTO cargo VALUES('2 suplente',27,1);
+INSERT INTO cargo VALUES('prefeito',32,1);
+INSERT INTO cargo VALUES('vice-prefeito',32,1);
+INSERT INTO cargo VALUES('vereador',32,38);
+INSERT INTO cargo VALUES('prefeito',29,1);
+INSERT INTO cargo VALUES('vice-prefeito',29,1);
+INSERT INTO cargo VALUES('vereador',29,33);
+INSERT INTO cargo VALUES('prefeito',30,1);
+INSERT INTO cargo VALUES('vice-prefeito',30,1);
+INSERT INTO cargo VALUES('vereador',30,21);
+INSERT INTO cargo VALUES('prefeito',31,1);
+INSERT INTO cargo VALUES('vice-prefeito',31,1);
+INSERT INTO cargo VALUES('vereador',31,55);
 
 -- CANDIDATURA (default,nome_cargo,localidade,CPF_candidato,ano,vice)
 
