@@ -197,6 +197,7 @@ CREATE TABLE pleito
 (
 	cod_candidatura integer,
 	num_votos integer,
+	resultado VARCHAR(20),
 	
 	CONSTRAINT pk_cod_candidatura PRIMARY KEY(cod_candidatura),
 	CONSTRAINT fk_candidatura FOREIGN KEY(cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura)
