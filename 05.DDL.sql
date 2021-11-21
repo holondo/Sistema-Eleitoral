@@ -15,9 +15,10 @@ CREATE TABLE individuo
 
 CREATE TABLE processo_judicial
 (
-	num_processo VARCHAR(14) NOT NULL,
+	num_processo SERIAL,
 	CPF VARCHAR(11),
 	status_procedente BOOL,
+	--status_julgamento BOOL,
 	data_julgamento DATE,
 	
 	CONSTRAINT pk_processo_judicial PRIMARY KEY(num_processo),
@@ -29,8 +30,7 @@ CREATE TABLE partido
 (
 	cod_partido integer,
 	nome VARCHAR(100) NOT NULL,
-	sigla VARCHAR(20) NOT NULL,
-
+	
 	CONSTRAINT pk_partido PRIMARY KEY(cod_partido)
 );
 
@@ -76,15 +76,8 @@ CREATE TABLE individuo_juridico
 -- 	CONSTRAINT fk_doador_juridico FOREIGN KEY(CNPJ) REFERENCES individuo_juridico(CNPJ),
 -- 	CHECK((CPF != NULL and CNPJ = NULL and tipo = FALSE) or (CPF = NULL and CNPJ != NULL and tipo = TRUE))
 -- );
-CREATE TABLE localidade
-(
-	id integer NOT NULL,
-	nome VARCHAR(100),
-	uf VARCHAR(2),
-	
-	CONSTRAINT pk_localidade PRIMARY KEY(id)
-);
-/*
+
+
 CREATE DOMAIN tipo_localidade
 as VARCHAR(9)
 CHECK(VALUE in ('cidade', 'estado', 'federacao'));
@@ -134,26 +127,24 @@ CREATE TABLE cidade
 	CONSTRAINT fk_uf_cidade FOREIGN KEY(UF) REFERENCES estado(UF),
 	CONSTRAINT un_cidade_uf UNIQUE(nome, UF)
 );
-*/
+
 
 CREATE TABLE cargo
 (
 	nome VARCHAR(100),
-	uf VARCHAR(2) DEFAULT 'BR' NOT NULL,
-	localidade integer DEFAULT 0 NOT NULL,
+	localidade integer,
 	quant_eleitos integer DEFAULT 0,
-
-	CONSTRAINT pk_cargo PRIMARY KEY(nome,uf, localidade),
+	
+	CONSTRAINT pk_cargo PRIMARY KEY(nome, localidade),
 	CONSTRAINT fk_localidade_cargo FOREIGN KEY(localidade) references localidade(id)
 );
 
 -- --------------------------CANDIDATURA------------------
 CREATE TABLE CANDIDATURA
 (
-	cod_candidatura bigint,
+	cod_candidatura serial,
 	nome_cargo varchar(100),
-	uf VARCHAR(2) DEFAULT 'BR' NOT NULL,
-	localidade integer DEFAULT 0 NOT NULL,
+	localidade integer,
 	CPF_candidato varchar(11),
 	ano integer NOT NULL,
 	vice varchar(11),
@@ -161,7 +152,7 @@ CREATE TABLE CANDIDATURA
 	CONSTRAINT pk_candidatura PRIMARY KEY(cod_candidatura),
 	CONSTRAINT un_cadidato_ano UNIQUE(CPF_candidato, ano),
 	--vice?
-	CONSTRAINT fk_candidatura_cargo FOREIGN KEY(nome_cargo,uf, localidade) REFERENCES cargo(nome,uf, localidade),
+	CONSTRAINT fk_candidatura_cargo FOREIGN KEY(nome_cargo, localidade) REFERENCES cargo(nome, localidade),
 	CONSTRAINT fk_candidatura_vice FOREIGN KEY(vice) REFERENCES candidato(CPF)
 );
 
@@ -170,7 +161,7 @@ CREATE TABLE doacao_pf
 (
 	cod_doacao serial,
 	CPF varchar(11),
-	cod_candidatura bigint,
+	cod_candidatura integer,
 	valor real,
 	check(valor > 0),
 	CONSTRAINT pk_cod_doacao PRIMARY KEY (cod_doacao),
@@ -182,7 +173,7 @@ CREATE TABLE doacao_pf
 CREATE TABLE doacao_pj
 (
 	CNPJ varchar(11),
-	cod_candidatura bigint,
+	cod_candidatura integer,
 	valor real,
 	check(valor > 0),
 	CONSTRAINT pk_CNPJ_candidatura PRIMARY KEY (CNPJ, cod_candidatura),
@@ -204,9 +195,8 @@ CREATE TABLE doacao_pj
 
 CREATE TABLE pleito
 (
-	cod_candidatura bigint,
+	cod_candidatura integer,
 	num_votos integer,
-	resultado VARCHAR(50),
 	
 	CONSTRAINT pk_cod_candidatura PRIMARY KEY(cod_candidatura),
 	CONSTRAINT fk_candidatura FOREIGN KEY(cod_candidatura) REFERENCES CANDIDATURA(cod_candidatura)
@@ -230,7 +220,7 @@ CREATE TABLE participante_equipe_apoio
 (
 	cod_participante serial,
 	CPF VARCHAR(11),
-	cod_candidatura bigint,
+	cod_candidatura integer,
 	ano integer DEFAULT 0,
 	
 	CONSTRAINT pk_participante_apoio PRIMARY KEY (CPF, ano),
@@ -322,7 +312,6 @@ FOR EACH ROW EXECUTE PROCEDURE equipe_apoio_individuo();
 -- FOR EACH ROW EXECUTE PROCEDURE doacao_campanha();
 
 -- --5 ATUALIZA LOCALIDADE
-/*
 CREATE OR REPLACE FUNCTION cidade_to_localidade() RETURNS TRIGGER AS $cidade_to_localidade$
 BEGIN
 
@@ -366,7 +355,7 @@ $federacao_to_localidade$ LANGUAGE plpgsql;
 CREATE TRIGGER federacao_to_localidade
 BEFORE INSERT ON federacao
 FOR EACH ROW EXECUTE PROCEDURE federacao_to_localidade();
-*/
+
 -- --8 SETA ANO DO APOIO DE ACORDO COM CANDIDATURA
 CREATE OR REPLACE FUNCTION apoio_candidatura() RETURNS TRIGGER AS $apoio_candidatura$
 DECLARE 
@@ -450,7 +439,6 @@ FOR EACH ROW EXECUTE PROCEDURE individuo_doacao();
 
 
 -----------------INSERT -------------------
-/*
 INSERT INTO individuo VALUES('Joao', '11111');
 INSERT INTO individuo VALUES('Maria', '11112');
 INSERT INTO individuo VALUES('Jose', '11113');
@@ -507,4 +495,3 @@ INSERT INTO participante_equipe_apoio VALUES(DEFAULT, '11113', 1, 2019);
 
 
 
-*/
