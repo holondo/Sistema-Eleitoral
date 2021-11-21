@@ -1,20 +1,4 @@
-INSERT INTO processo_judicial VALUES(default, '11111', true, CURRENT_DATE - 2);
-INSERT INTO processo_judicial VALUES(default, '11112', true, CURRENT_DATE - 6);
-INSERT INTO processo_judicial VALUES(default, '11113', true, CURRENT_DATE);
-
-INSERT INTO candidato VALUES('11112', 172);
-INSERT INTO candidato VALUES('11114', 321);
-
-INSERT INTO individuo_juridico VALUES('000001', 'lojinha da esquina');
-INSERT INTO individuo_juridico VALUES('000002', 'mecanico de autos');
-INSERT INTO individuo_juridico VALUES('000003', 'cabeleleira leila');
-
-INSERT INTO doacao_pf VALUES(DEFAULT, '11111', 1, 111.14);
-
-INSERT INTO doacao_pj VALUES('000001', 1, 111.14);
-
-INSERT INTO participante_equipe_apoio VALUES(DEFAULT, '11113', 1, 2019);
-----------------------------------------------------temp div-----------------------------------
+-------------------------------------------------temp div-----------------------------------
 
 --cidades e estados chave para exemplificação
 --BRASIL id:1
@@ -25,31 +9,31 @@ INSERT INTO participante_equipe_apoio VALUES(DEFAULT, '11113', 1, 2019);
 
 -- individuo (nome,CPF)
 --add examplos from federation
-INSERT INTO individuo VALUES('Maria Aparecida De Bonfim','00052991954');
-INSERT INTO individuo VALUES('Alvaro Fernandes Dias','00274003953');
-INSERT INTO individuo VALUES('Antonio Martins Annibelli','00293091900');
-INSERT INTO individuo VALUES('Baptista Leite Cavalcante','02122748800');
-INSERT INTO individuo VALUES('Ã‰rika Luciana Andreassy','02470073901');
-INSERT INTO individuo VALUES('Bernardo Seixas Pilotto','04750591904');
-INSERT INTO individuo VALUES('Izildinha Souza Dos Santos','00016867807');
-INSERT INTO individuo VALUES('Odmir Alves Pereira','00049151860');
-INSERT INTO individuo VALUES('Walter Aparecido Amarante','00593280881');
-INSERT INTO individuo VALUES('Sergio Contente','02607820847');
-INSERT INTO individuo VALUES('Gilberto Maringoni De Oliveira','03304550879');
-INSERT INTO individuo VALUES('Joao Duarte Pestana Barreto','03597285880');
-INSERT INTO individuo VALUES('Edmilson Silva Costa','04497643387');
-INSERT INTO individuo VALUES('Aparecida Carlota','00001650696');
-INSERT INTO individuo VALUES('Eduardo Pimentel Slaviero','00476417970');
-INSERT INTO individuo VALUES('XÃªnia Karoline Mello','04633274970');
-INSERT INTO individuo VALUES('Oscar Teixeira','00006903843');
-INSERT INTO individuo VALUES('Marcos Evangelista Da Silva','00177740710');
-INSERT INTO individuo VALUES('Mario Henrique Rogeri','00270667890');
-INSERT INTO individuo VALUES('Luiza Erundina De Sousa','00480584400');
-INSERT INTO individuo VALUES('Angelo Andrea Matarazzo','00752453882');
-INSERT INTO individuo VALUES('Diana Cury','02635658820');
-INSERT INTO individuo VALUES('Walcinyr Bragatto','02985812801');
-INSERT INTO individuo VALUES('Jonas Donizette Ferreira','09696450826');
-INSERT INTO individuo VALUES('Benedita Rosa Santana E Silva','11936731860');
+INSERT INTO individuo VALUES('Maria Aparecida De Bonfim','00052991954',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Alvaro Fernandes Dias','00274003953',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Antonio Martins Annibelli','00293091900',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Baptista Leite Cavalcante','02122748800',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Ã‰rika Luciana Andreassy','02470073901',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Bernardo Seixas Pilotto','04750591904',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Izildinha Souza Dos Santos','00016867807',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Odmir Alves Pereira','00049151860',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Walter Aparecido Amarante','00593280881',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Sergio Contente','02607820847',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Gilberto Maringoni De Oliveira','03304550879',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Joao Duarte Pestana Barreto','03597285880',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Edmilson Silva Costa','04497643387',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Aparecida Carlota','00001650696',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Eduardo Pimentel Slaviero','00476417970',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('XÃªnia Karoline Mello','04633274970',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Oscar Teixeira','00006903843',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Marcos Evangelista Da Silva','00177740710',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Mario Henrique Rogeri','00270667890',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Luiza Erundina De Sousa','00480584400',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Angelo Andrea Matarazzo','00752453882',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Diana Cury','02635658820',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Walcinyr Bragatto','02985812801',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Jonas Donizette Ferreira','09696450826',DEFAULT,DEFAULT);
+INSERT INTO individuo VALUES('Benedita Rosa Santana E Silva','11936731860',DEFAULT,DEFAULT);
 
 -- partido (cod_partido,nome)
 INSERT INTO partido VALUES(19,'Partido Trabalhista Nacional');
@@ -231,18 +215,18 @@ INSERT INTO CANDIDATURA VALUES(DEFAULT, 'deputado federal',19,'52991954',2014);
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'vereador',29,'177740710',2016);
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'vereador',30,'270667890',2016);
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'senador',19,'274003953',2014);
-INSERT INTO CANDIDATURA VALUES(DEFAULT, '1Âº suplente',19,'293091900',2014);
+
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'vice-prefeito',32,'476417970',2016);
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'prefeito',31,'480584400',2016);
-INSERT INTO CANDIDATURA VALUES(DEFAULT, '1Âº suplente',27,'593280881',2014);
+
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'vice-prefeito',31,'752453882',2016);
-INSERT INTO CANDIDATURA VALUES(DEFAULT, '2Âº suplente',19,'2122748800',2014);
+
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'vice-governador',19,'2470073901',2014);
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'vice-governador',27,'2607820847',2014);
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'vice-prefeito',30,'2635658820',2016);
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'prefeito',30,'2985812801',2016);
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'governador',27,'3304550879',2014);
-INSERT INTO CANDIDATURA VALUES(DEFAULT, '2Âº suplente',27,'3597285880',2014);
+
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'senador',27,'4497643387',2014);
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'prefeito',32,'4633274970',2016);
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'governador',19,'4750591904',2014);
@@ -250,56 +234,57 @@ INSERT INTO CANDIDATURA VALUES(DEFAULT, 'prefeito',29,'9696450826',2016);
 INSERT INTO CANDIDATURA VALUES(DEFAULT, 'vice-prefeito',29,'11936731860',2016);
 
 --pleito(cod_candidatura,num_votos)
-INSERT INTO CANDIDATURA VALUES(1,374,'suplente');
-INSERT INTO CANDIDATURA VALUES(2,0,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(3,54993,'eleito por qp');
-INSERT INTO CANDIDATURA VALUES(4,43446,'eleito por media');
-INSERT INTO CANDIDATURA VALUES(5,6176,'suplente');
-INSERT INTO CANDIDATURA VALUES(6,0,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(7,82886,'eleito por qp');
-INSERT INTO CANDIDATURA VALUES(8,77699,'eleito por media');
-INSERT INTO CANDIDATURA VALUES(9,1634316,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(10,3301322,'eleito');
-INSERT INTO CANDIDATURA VALUES(11,666438,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(12,4101848,'eleito');
-INSERT INTO CANDIDATURA VALUES(13,888,'suplente');
-INSERT INTO CANDIDATURA VALUES(14,127373,'eleito por qp');
-INSERT INTO CANDIDATURA VALUES(15,79016,'eleito por media');
-INSERT INTO CANDIDATURA VALUES(16,0,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(17,163,'suplente');
-INSERT INTO CANDIDATURA VALUES(18,134138,'eleito por qp');
-INSERT INTO CANDIDATURA VALUES(19,109708,'eleito por media');
-INSERT INTO CANDIDATURA VALUES(20,0,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(21,12958,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(22,12230807,'eleito');
-INSERT INTO CANDIDATURA VALUES(23,12102,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(24,11105874,'eleito');
+INSERT INTO pleito VALUES(1,374,'suplente');
+INSERT INTO pleito VALUES(2,0,'nao eleito');
+INSERT INTO pleito VALUES(3,54993,'eleito por qp');
+INSERT INTO pleito VALUES(4,43446,'eleito por media');
+INSERT INTO pleito VALUES(5,6176,'suplente');
+INSERT INTO pleito VALUES(6,0,'nao eleito');
+INSERT INTO pleito VALUES(7,82886,'eleito por qp');
+INSERT INTO pleito VALUES(8,77699,'eleito por media');
+INSERT INTO pleito VALUES(9,1634316,'nao eleito');
+INSERT INTO pleito VALUES(10,3301322,'eleito');
+INSERT INTO pleito VALUES(11,666438,'nao eleito');
+INSERT INTO pleito VALUES(12,4101848,'eleito');
+INSERT INTO pleito VALUES(13,888,'suplente');
+INSERT INTO pleito VALUES(14,127373,'eleito por qp');
+INSERT INTO pleito VALUES(15,79016,'eleito por media');
+INSERT INTO pleito VALUES(16,0,'nao eleito');
+INSERT INTO pleito VALUES(17,163,'suplente');
+INSERT INTO pleito VALUES(18,134138,'eleito por qp');
+INSERT INTO pleito VALUES(19,109708,'eleito por media');
+INSERT INTO pleito VALUES(20,0,'nao eleito');
+INSERT INTO pleito VALUES(21,12958,'nao eleito');
 /*
-INSERT INTO CANDIDATURA VALUES(25,52017,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(26,356539,'2º turno');
-INSERT INTO CANDIDATURA VALUES(27,185,'suplente');
-INSERT INTO CANDIDATURA VALUES(28,7618,'eleito por qp');
-INSERT INTO CANDIDATURA VALUES(29,0,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(30,3728,'eleito por media');
-INSERT INTO CANDIDATURA VALUES(31,279,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(32,323308,'eleito');
-INSERT INTO CANDIDATURA VALUES(33,28,'suplente');
-INSERT INTO CANDIDATURA VALUES(34,0,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(35,3991,'eleito por qp');
-INSERT INTO CANDIDATURA VALUES(36,3561,'eleito por media');
-INSERT INTO CANDIDATURA VALUES(37,25016,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(38,48951,'eleito');
-INSERT INTO CANDIDATURA VALUES(39,1702,'eleito por qp');
-INSERT INTO CANDIDATURA VALUES(40,88,'suplente');
-INSERT INTO CANDIDATURA VALUES(41,0,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(42,1209,'eleito por media');
-INSERT INTO CANDIDATURA VALUES(43,6006,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(44,3085187,'eleito');
-INSERT INTO CANDIDATURA VALUES(45,1103,'nao eleito');
-INSERT INTO CANDIDATURA VALUES(46,10918,'suplente');
-INSERT INTO CANDIDATURA VALUES(47,40113,'eleito por qp');
-INSERT INTO CANDIDATURA VALUES(48,24892,'eleito por media');
-INSERT INTO CANDIDATURA VALUES(49,461736,'eleito');
+21 linhas, quantidade tem que ser igual a quantidade em candidatura
+INSERT INTO pleito VALUES(22,12230807,'eleito');
+INSERT INTO pleito VALUES(23,12102,'nao eleito');
+INSERT INTO pleito VALUES(24,11105874,'eleito');
+INSERT INTO pleito VALUES(25,52017,'nao eleito');
+INSERT INTO pleito VALUES(26,356539,'2º turno');
+INSERT INTO pleito VALUES(27,185,'suplente');
+INSERT INTO pleito VALUES(28,7618,'eleito por qp');
+INSERT INTO pleito VALUES(29,0,'nao eleito');
+INSERT INTO pleito VALUES(30,3728,'eleito por media');
+INSERT INTO pleito VALUES(31,279,'nao eleito');
+INSERT INTO pleito VALUES(32,323308,'eleito');
+INSERT INTO pleito VALUES(33,28,'suplente');
+INSERT INTO pleito VALUES(34,0,'nao eleito');
+INSERT INTO pleito VALUES(35,3991,'eleito por qp');
+INSERT INTO pleito VALUES(36,3561,'eleito por media');
+INSERT INTO pleito VALUES(37,25016,'nao eleito');
+INSERT INTO pleito VALUES(38,48951,'eleito');
+INSERT INTO pleito VALUES(39,1702,'eleito por qp');
+INSERT INTO pleito VALUES(40,88,'suplente');
+INSERT INTO pleito VALUES(41,0,'nao eleito');
+INSERT INTO pleito VALUES(42,1209,'eleito por media');
+INSERT INTO pleito VALUES(43,6006,'nao eleito');
+INSERT INTO pleito VALUES(44,3085187,'eleito');
+INSERT INTO pleito VALUES(45,1103,'nao eleito');
+INSERT INTO pleito VALUES(46,10918,'suplente');
+INSERT INTO pleito VALUES(47,40113,'eleito por qp');
+INSERT INTO pleito VALUES(48,24892,'eleito por media');
+INSERT INTO pleito VALUES(49,461736,'eleito');
 */
 
 

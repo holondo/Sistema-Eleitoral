@@ -438,7 +438,7 @@ BEFORE INSERT OR DELETE ON doacao_pf
 
 FOR EACH ROW EXECUTE PROCEDURE individuo_doacao();
 
-
+/*
 -----------------INSERT -------------------
 INSERT INTO individuo VALUES('Joao', '11111');
 INSERT INTO individuo VALUES('Maria', '11112');
@@ -494,5 +494,5 @@ INSERT INTO participante_equipe_apoio VALUES(DEFAULT, '11113', 1, 2019);
 
 
 
-
+*/
 
