@@ -7,7 +7,7 @@ CREATE TABLE individuo
 	nome VARCHAR(100) NOT NULL,
 	CPF VARCHAR(11),
 	status_limpa bool default true,
-	tipo VARCHAR(100) default 'Sem função',
+	--tipo VARCHAR(100) default 'Sem função',
 	
 	CONSTRAINT pk_individuo PRIMARY KEY(CPF) 
 );
@@ -17,14 +17,13 @@ CREATE TABLE processo_judicial
 (
 	num_processo SERIAL,
 	CPF VARCHAR(11),
-	status_procedente BOOL,
+	status_procedente BOOL default false,
 	--status_julgamento BOOL,
 	data_julgamento DATE,
 	
 	CONSTRAINT pk_processo_judicial PRIMARY KEY(num_processo),
-	CONSTRAINT fk_individuo_processo FOREIGN KEY(CPF) REFERENCES individuo(CPF)
+	CONSTRAINT fk_individuo_processo FOREIGN KEY(CPF) REFERENCES individuo(CPF) on delete cascade
 );
-
 
 CREATE TABLE partido
 (
@@ -40,7 +39,7 @@ CREATE TABLE candidato
 	partido integer,
 	
 	CONSTRAINT pk_candidato PRIMARY KEY(CPF),
-	CONSTRAINT fk_individuo_candidato FOREIGN KEY (CPF) REFERENCES individuo(CPF),
+	CONSTRAINT fk_individuo_candidato FOREIGN KEY (CPF) REFERENCES individuo(CPF) on delete cascade,
 	CONSTRAINT fk_candidato_partido FOREIGN KEY (partido) REFERENCES partido(cod_partido)
 	
 );
@@ -52,7 +51,7 @@ CREATE TABLE programa_partido
 	descricao VARCHAR(500),
 	
 	CONSTRAINT pk_programa PRIMARY KEY(cod_partido),
-	CONSTRAINT fk_programa_partido FOREIGN KEY(cod_partido) REFERENCES partido(cod_partido)
+	CONSTRAINT fk_programa_partido FOREIGN KEY(cod_partido) REFERENCES partido(cod_partido) on delete cascade
 );
 
 
@@ -96,7 +95,7 @@ CREATE TABLE federacao
 	nome VARCHAR(100) NOT NULL,
 	
 	CONSTRAINT pk_federacao PRIMARY KEY(id),
-	CONSTRAINT fk_federacao FOREIGN KEY(id) REFERENCES localidade(id),
+	CONSTRAINT fk_federacao FOREIGN KEY(id) REFERENCES localidade(id) on delete cascade,
 	CONSTRAINT un_federacao UNIQUE(nome)
 );
 
@@ -111,7 +110,7 @@ CREATE TABLE estado
 	nome varchar(100),
 	
 	CONSTRAINT pk_estado PRIMARY KEY(id),
-	CONSTRAINT fk_estado FOREIGN KEY(id) REFERENCES localidade(id),
+	CONSTRAINT fk_estado FOREIGN KEY(id) REFERENCES localidade(id) on delete cascade,
 	CONSTRAINT un_UF UNIQUE(UF)
 );
 
@@ -123,8 +122,8 @@ CREATE TABLE cidade
 	UF unidadefederativa,
 	
 	CONSTRAINT pk_cidade PRIMARY KEY(id),
-	CONSTRAINT fk_id_cidade FOREIGN KEY(id) REFERENCES localidade(id),
-	CONSTRAINT fk_uf_cidade FOREIGN KEY(UF) REFERENCES estado(UF),
+	CONSTRAINT fk_id_cidade FOREIGN KEY(id) REFERENCES localidade(id) on delete cascade,
+	CONSTRAINT fk_uf_cidade FOREIGN KEY(UF) REFERENCES estado(UF) on delete cascade,
 	CONSTRAINT un_cidade_uf UNIQUE(nome, UF)
 );
 
@@ -136,7 +135,7 @@ CREATE TABLE cargo
 	quant_eleitos integer DEFAULT 0,
 	
 	CONSTRAINT pk_cargo PRIMARY KEY(nome, localidade),
-	CONSTRAINT fk_localidade_cargo FOREIGN KEY(localidade) references localidade(id)
+	CONSTRAINT fk_localidade_cargo FOREIGN KEY(localidade) references localidade(id) on delete cascade
 );
 
 -- --------------------------CANDIDATURA------------------
@@ -153,7 +152,7 @@ CREATE TABLE CANDIDATURA
 	CONSTRAINT un_cadidato_ano UNIQUE(CPF_candidato, ano),
 	--vice?
 	CONSTRAINT fk_candidatura_cargo FOREIGN KEY(nome_cargo, localidade) REFERENCES cargo(nome, localidade),
-	CONSTRAINT fk_candidatura_vice FOREIGN KEY(vice) REFERENCES candidato(CPF)
+	CONSTRAINT fk_candidatura_vice FOREIGN KEY(vice) REFERENCES candidato(CPF) on delete set NULL
 );
 
 
@@ -489,7 +488,6 @@ INSERT INTO doacao_pj VALUES('000001', 1, 111.14);
 INSERT INTO pleito VALUES(1, 1110);
 
 INSERT INTO participante_equipe_apoio VALUES(DEFAULT, '11113', 1, 2019);
-
 
 
 

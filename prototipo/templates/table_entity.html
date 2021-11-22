@@ -1,0 +1,22 @@
+{%extends 'index.html'%}
+
+{%block table %}
+<table>
+    <thead>
+        <tr>{{tablename}}</tr>
+        <tr>
+            {% for header in tableHeaders%}
+            <td>{{header}}</td>
+            {%endfor%}
+        </tr>
+    </thead>
+    {% for row in tableData%}
+    <tr>
+        {% for data in row%}
+        <td>{{data}}</td>
+        {% endfor %}
+        <td><a href="\delete\{{tablename}}\{{row[0]}}\?key={{tableHeaders[0]}}">Excluir</a></td>
+    </tr>
+    {%endfor%}
+</table>
+{%endblock%}
