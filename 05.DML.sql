@@ -3,8 +3,8 @@
 --cidades e estados chave para exemplificação
 --BRASIL id:1
 
---SP id: - Sao Paulo id: , Campinas id: , São carlos id:
---PR id: - Curitiba
+--SP id:27 - Sao Paulo id:31 , Campinas id:29 , São carlos id:30
+--PR id:19 - Curitiba id:32
 ----------------------------------------------------temp div-----------------------------------
 
 -- individuo (nome,CPF)
@@ -357,7 +357,7 @@ INSERT INTO doacao_pf VALUES(DEFAULT,'38321692423',23,771766);
 /*
 23 linhas, tem que ser igual candidatura
 INSERT INTO doacao_pf VALUES(DEFAULT,'56661397079',24,570595);
-INSERT INTO doacao_pf VALUES(DEFAULT,'57417731961',3,91755);
+INSERT INTO doacao_pf VALUES(DEFAULT,'57417731961',25,91755);
 INSERT INTO doacao_pf VALUES(DEFAULT,'77370916607',26,872647);
 INSERT INTO doacao_pf VALUES(DEFAULT,'44312475404',27,982480);
 INSERT INTO doacao_pf VALUES(DEFAULT,'53390012746',28,344292);
