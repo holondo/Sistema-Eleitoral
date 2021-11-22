@@ -1,0 +1,21 @@
+{%extends 'index.html' %}
+{%block table %}
+<table>
+    <thead>
+        <tr>Equipes de Apoio à candidatura</tr>
+        <tr>
+            {% for header in tableHeaders%}
+            <td>{{header}}</td>
+            {%endfor%}
+        </tr>
+    </thead>
+    {% for row in tableData%}
+    <tr>
+        {% for data in row%}
+        <td>{{data}}</td>
+        {% endfor %}
+        <td><a href="\participante_equipe_apoio\{{row[0]}}">Ver equipe</a></td>
+    </tr>
+    {%endfor%}
+</table>
+{%endblock%}

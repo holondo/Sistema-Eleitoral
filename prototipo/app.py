@@ -84,10 +84,21 @@ def doacao_pj():
     headers, rows = getTable('select dpj.CNPJ, dpj.cod_candidatura, ij.nome, dpj.valor from doacao_pj dpj natural join individuo_juridico ij')
     return render_template("table_relation.html", tablename="doacao_pj", tableHeaders=headers, tableData=rows)
 
-@app.route('/candidatura')
+@app.route('/candidatura/')
 def candidatura():
-    headers, rows = getTable('select c.cod_candidatura, i.nome, i.cpf, c.nome_cargo, c.localidade, c.ano from candidatura c join individuo i on i.cpf = c.cpf_candidato')
-    return render_template("table_entity.html", tablename="candidatura", tableHeaders=headers, tableData=rows)
+    orderBy = request.args.get('orderBy', default='ano', type=str)
+    headers, rows = getTable('select c.cod_candidatura, i.nome, i.cpf, c.nome_cargo, c.localidade, c.ano from candidatura c join individuo i on i.cpf = c.cpf_candidato order by %s'%orderBy)
+    return render_template("candidatura.html", tablename="candidatura", tableHeaders=headers, tableData=rows)
+
+@app.route('/participante_equipe_apoio')
+def equipe_apoio():
+    headers, rows = getTable('select cod_candidatura, count(cpf) as Numero_Participantes from participante_equipe_apoio group by cod_candidatura')
+    return render_template("equipes.html", tableHeaders=headers, tableData=rows)    
+
+@app.route('/participante_equipe_apoio/<candidatura>')
+def participante_equipe_apoio(candidatura):
+    headers, rows = getTable('select cod_participante, cod_candidatura, i.nome, ano from participante_equipe_apoio natural join individuo i where cod_candidatura = %s'%candidatura)
+    return render_template("table_entity.html", tablename= 'participante_equipe_apoio', tableHeaders=headers, tableData=rows)
 
 @app.route('/delete/<tablename>/<id>/')
 def delete_entity(tablename, id):
@@ -97,7 +108,7 @@ def delete_entity(tablename, id):
     # except psycopg2.Error as e:
     #     return render_template('index.html', message= "Resolva as pendencias deste registro antes de o deletar")
     
-    return redirect(url_for(tablename))
+    return redirect(request.referrer)
 
 @app.route('/doacao_pj/<CNPJ>/<candidatura>')
 def excluir_doacao_pj(CNPJ, candidatura):
