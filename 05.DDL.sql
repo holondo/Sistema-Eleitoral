@@ -372,7 +372,7 @@ CREATE TRIGGER apoio_candidatura
 BEFORE INSERT ON participante_equipe_apoio
 
 FOR EACH ROW EXECUTE PROCEDURE apoio_candidatura();
-
+/*
 -- --9 VERIFICA SE JA EXISTE DADO
 CREATE OR REPLACE FUNCTION individuo_candidato() RETURNS TRIGGER AS $individuo_candidato$
 BEGIN
