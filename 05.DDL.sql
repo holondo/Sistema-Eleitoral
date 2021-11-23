@@ -1,7 +1,4 @@
 
-CREATE DOMAIN papel AS VARCHAR(10)
-CHECK (VALUE IN ('Apoio','Doador','Candidato','Sem função'));
-
 CREATE TABLE individuo
 (
 	nome VARCHAR(100) NOT NULL,
