@@ -3,8 +3,8 @@
 --cidades e estados chave para exemplificação
 --BRASIL id:1
 
---SP id: - Sao Paulo id: , Campinas id: , São carlos id:
---PR id: - Curitiba
+--SP id:27 - Sao Paulo id:31 , Campinas id:29 , São carlos id:30
+--PR id:19 - Curitiba id:32
 ----------------------------------------------------temp div-----------------------------------
 
 -- individuo (nome,CPF)
@@ -298,36 +298,36 @@ INSERT INTO pleito VALUES(49,461736,true);
 --NAO TESTADO A PARTIR DAQUI
 
 --individuos participantes de doaçao pessoa fisica
-INSERT INTO individuo VALUES('Ingaberg Hauger','73827920794');
-INSERT INTO individuo VALUES('Morton Reese','23416915458');
-INSERT INTO individuo VALUES('Corina Gobeau','85210689971');
-INSERT INTO individuo VALUES('Goldi Dumingo','26824311462');
-INSERT INTO individuo VALUES('Chloe Earle','23576267455');
-INSERT INTO individuo VALUES('Felicle Rosenboim','72405888850');
-INSERT INTO individuo VALUES('Tailor Hanscomb','43076831900');
-INSERT INTO individuo VALUES('Verge Chelley','45811330530');
-INSERT INTO individuo VALUES('Christiano Tawton','14827911562');
-INSERT INTO individuo VALUES('Thibaut Fuentes','46641217088');
-INSERT INTO individuo VALUES('Lulita Pamment','36202824411');
-INSERT INTO individuo VALUES('Milty McAlpine','25508004004');
-INSERT INTO individuo VALUES('Callida Schimank','44353701015');
-INSERT INTO individuo VALUES('Von Scutching','64420554583');
-INSERT INTO individuo VALUES('Dore Maccaig','67274006931');
-INSERT INTO individuo VALUES('Dolorita Drable','11740510164');
-INSERT INTO individuo VALUES('Averil Vowells','68202825689');
-INSERT INTO individuo VALUES('Mabel Kingett','51188916811');
-INSERT INTO individuo VALUES('Dorene Rispine','58369930860');
-INSERT INTO individuo VALUES('Blane Youhill','76749522675');
-INSERT INTO individuo VALUES('Gwynne Richemond','47035551608');
-INSERT INTO individuo VALUES('Benita Humpage','46517826673');
-INSERT INTO individuo VALUES('Flossi Gorden','38321692423');
-INSERT INTO individuo VALUES('Lola Spinley','56661397079');
-INSERT INTO individuo VALUES('Brita Fine','57417731961');
-INSERT INTO individuo VALUES('Tiler Folini','77370916607');
-INSERT INTO individuo VALUES('Benyamin Ozanne','44312475404');
-INSERT INTO individuo VALUES('Ric Oseman','53390012746');
-INSERT INTO individuo VALUES('Laverna Coultas','59139206924');
-INSERT INTO individuo VALUES('Franni Greatrex','30856157651');
+INSERT INTO individuo VALUES('Ingaberg Hauger','73827920794',DEFAULT);
+INSERT INTO individuo VALUES('Morton Reese','23416915458',DEFAULT);
+INSERT INTO individuo VALUES('Corina Gobeau','85210689971',DEFAULT);
+INSERT INTO individuo VALUES('Goldi Dumingo','26824311462',DEFAULT);
+INSERT INTO individuo VALUES('Chloe Earle','23576267455',DEFAULT);
+INSERT INTO individuo VALUES('Felicle Rosenboim','72405888850',DEFAULT);
+INSERT INTO individuo VALUES('Tailor Hanscomb','43076831900',DEFAULT);
+INSERT INTO individuo VALUES('Verge Chelley','45811330530',DEFAULT);
+INSERT INTO individuo VALUES('Christiano Tawton','14827911562',DEFAULT);
+INSERT INTO individuo VALUES('Thibaut Fuentes','46641217088',DEFAULT);
+INSERT INTO individuo VALUES('Lulita Pamment','36202824411',DEFAULT);
+INSERT INTO individuo VALUES('Milty McAlpine','25508004004',DEFAULT);
+INSERT INTO individuo VALUES('Callida Schimank','44353701015',DEFAULT);
+INSERT INTO individuo VALUES('Von Scutching','64420554583',DEFAULT);
+INSERT INTO individuo VALUES('Dore Maccaig','67274006931',DEFAULT);
+INSERT INTO individuo VALUES('Dolorita Drable','11740510164',DEFAULT);
+INSERT INTO individuo VALUES('Averil Vowells','68202825689',DEFAULT);
+INSERT INTO individuo VALUES('Mabel Kingett','51188916811',DEFAULT);
+INSERT INTO individuo VALUES('Dorene Rispine','58369930860',DEFAULT);
+INSERT INTO individuo VALUES('Blane Youhill','76749522675',DEFAULT);
+INSERT INTO individuo VALUES('Gwynne Richemond','47035551608',DEFAULT);
+INSERT INTO individuo VALUES('Benita Humpage','46517826673',DEFAULT);
+INSERT INTO individuo VALUES('Flossi Gorden','38321692423',DEFAULT);
+INSERT INTO individuo VALUES('Lola Spinley','56661397079',DEFAULT);
+INSERT INTO individuo VALUES('Brita Fine','57417731961',DEFAULT);
+INSERT INTO individuo VALUES('Tiler Folini','77370916607',DEFAULT);
+INSERT INTO individuo VALUES('Benyamin Ozanne','44312475404',DEFAULT);
+INSERT INTO individuo VALUES('Ric Oseman','53390012746',DEFAULT);
+INSERT INTO individuo VALUES('Laverna Coultas','59139206924',DEFAULT);
+INSERT INTO individuo VALUES('Franni Greatrex','30856157651',DEFAULT);
 
 --doacao_pf (default,CPF,cod_candidatura,valor)
 
@@ -357,7 +357,7 @@ INSERT INTO doacao_pf VALUES(DEFAULT,'38321692423',23,771766);
 /*
 23 linhas, tem que ser igual candidatura
 INSERT INTO doacao_pf VALUES(DEFAULT,'56661397079',24,570595);
-INSERT INTO doacao_pf VALUES(DEFAULT,'57417731961',3,91755);
+INSERT INTO doacao_pf VALUES(DEFAULT,'57417731961',25,91755);
 INSERT INTO doacao_pf VALUES(DEFAULT,'77370916607',26,872647);
 INSERT INTO doacao_pf VALUES(DEFAULT,'44312475404',27,982480);
 INSERT INTO doacao_pf VALUES(DEFAULT,'53390012746',28,344292);

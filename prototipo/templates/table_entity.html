@@ -1,7 +1,7 @@
 {%extends 'index.html'%}
 
 {%block table %}
-<table>
+<table class="table table-sm">
     <thead>
         <tr>{{tablename}}</tr>
         <tr>
@@ -15,7 +15,7 @@
         {% for data in row%}
         <td>{{data}}</td>
         {% endfor %}
-        <td><a href="\delete\{{tablename}}\{{row[0]}}\?key={{tableHeaders[0]}}">Excluir</a></td>
+        <td><button class="btn btn-sm btn-danger btn-menu" type="button"><a href="\delete\{{tablename}}\{{row[0]}}\?key={{tableHeaders[0]}}">Excluir</a></button></td>
     </tr>
     {%endfor%}
 </table>
