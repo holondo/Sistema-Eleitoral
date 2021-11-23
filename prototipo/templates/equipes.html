@@ -1,6 +1,6 @@
 {%extends 'index.html' %}
 {%block table %}
-<table>
+<table class="table table-sm">
     <thead>
         <tr>Equipes de Apoio à candidatura</tr>
         <tr>
@@ -9,13 +9,17 @@
             {%endfor%}
         </tr>
     </thead>
-    {% for row in tableData%}
-    <tr>
-        {% for data in row%}
-        <td>{{data}}</td>
-        {% endfor %}
-        <td><a href="\participante_equipe_apoio\{{row[0]}}">Ver equipe</a></td>
-    </tr>
-    {%endfor%}
+    <tbody>
+
+        {% for row in tableData%}
+        <tr>
+            {% for data in row%}
+            <td>{{data}}</td>
+            {% endfor %}
+            <td><a href="\participante_equipe_apoio\{{row[0]}}">Ver equipe</a></td>
+        </tr>
+        {%endfor%}
+    </tbody>
+    
 </table>
 {%endblock%}
