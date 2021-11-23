@@ -131,6 +131,7 @@ CREATE TABLE CANDIDATURA
 	
 	CONSTRAINT pk_candidatura PRIMARY KEY(cod_candidatura),
 	CONSTRAINT un_cadidato_ano UNIQUE(CPF_candidato, ano),
+	CONSTRAINT fk_candidatura_candidato FOREIGN KEY(CPF_candidato) REFERENCES candidato(CPF) ON DELETE CASCADE,
 	CONSTRAINT fk_candidatura_cargo FOREIGN KEY(nome_cargo, localidade) REFERENCES cargo(nome, localidade) on delete cascade,
 	CONSTRAINT fk_candidatura_vice FOREIGN KEY(vice) REFERENCES candidato(CPF) on delete set NULL
 );
