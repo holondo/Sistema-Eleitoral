@@ -6,7 +6,7 @@
         <tr>{{tablename}}</tr>
         <tr>
             {% for header in tableHeaders%}
-            <td><a href="/candidatura/?orderBy={{header}}">{{header}}</a></td>
+            <td><a href="/candidatura/?orderBy={{header}}"><button type="button" class="btn btn-outline-success">{{header}}</button></a></td>
             {%endfor%}
         </tr>
     </thead>
