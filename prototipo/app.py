@@ -110,6 +110,17 @@ def delete_entity(tablename, id):
     
     return redirect(request.referrer)
 
+@app.route('/delete/<tablename>/<id1>/<id2>/')
+def delete_relation(tablename, id1, id2):
+    key1 = request.args.get('key1', default='id', type=str)
+    key2 = request.args.get('key2', default='id', type=str)
+    cursor.execute('delete from %s where %s = %s and %s = %s', (AsIs(tablename), AsIs(key1), id1, AsIs(key2), id2))
+    # try:
+    # except psycopg2.Error as e:
+    #     return render_template('index.html', message= "Resolva as pendencias deste registro antes de o deletar")
+    
+    return redirect(request.referrer)
+
 @app.route('/doacao_pj/<CNPJ>/<candidatura>')
 def excluir_doacao_pj(CNPJ, candidatura):
     cursor.execute("delete from doacao_pj where CNPJ= %s and cod_candidatura = %s", (CNPJ, candidatura))

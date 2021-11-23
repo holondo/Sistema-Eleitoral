@@ -15,7 +15,7 @@
         {% for data in row%}
         <td>{{data}}</td>
         {% endfor %}
-        <td><a href="\{{tablename}}\{{row[0]}}\{{row[1]}}">Excluir</a></td>
+        <td><a href="\delete\{{tablename}}\{{row[0]}}\{{row[1]}}\?key1={{tableHeaders[0]}}&key2={{tableHeaders[1]}}">Excluir</a></td>
     </tr>
     {%endfor%}
 </table>
