@@ -27,6 +27,11 @@ def individuo():
     headers, rows = getTable('select cpf, nome, case when status_limpa = true then \'Ficha limpa\' else \'Ficha suja\' end from individuo')
     return render_template("table_entity.html", tablename="individuo", tableHeaders=headers, tableData=rows)
 
+@app.route('/ficha_limpa')
+def ficha_limpa():
+    headers, rows = getTable('select cpf, nome, case when status_limpa = true then \'Ficha limpa\' else \'Ficha suja\' end from individuo where status_limpa = true')
+    return render_template("table_entity.html", tablename="individuo", tableHeaders=headers, tableData=rows)
+
 @app.route('/processo_judicial')
 def processo_judicial():
     headers, rows = getTable('select num_processo, cpf, case when status_procedente = true then \'Culpado\' else \'Inocente\' end as Veredito, data_julgamento from processo_judicial')
@@ -39,7 +44,7 @@ def partido():
 
 @app.route('/candidato')
 def candidato():
-    headers, rows = getTable('select c.cpf, i.nome, p.nome from candidato c join individuo i on c.cpf = i.cpf join partido p on p.cod_partido = c.partido')
+    headers, rows = getTable('select c.cpf, i.nome, p.nome as nome_partido from candidato c join individuo i on c.cpf = i.cpf join partido p on p.cod_partido = c.partido')
     return render_template("table_entity.html", tablename="candidato", tableHeaders=headers, tableData=rows)
 
 
@@ -84,6 +89,7 @@ def doacao_pj():
     headers, rows = getTable('select dpj.CNPJ, dpj.cod_candidatura, ij.nome, dpj.valor from doacao_pj dpj natural join individuo_juridico ij')
     return render_template("table_relation.html", tablename="doacao_pj", tableHeaders=headers, tableData=rows)
 
+@app.route('/')
 @app.route('/candidatura/')
 def candidatura():
     orderBy = request.args.get('orderBy', default='ano', type=str)
