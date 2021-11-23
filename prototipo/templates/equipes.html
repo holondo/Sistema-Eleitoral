@@ -16,7 +16,7 @@
             {% for data in row%}
             <td>{{data}}</td>
             {% endfor %}
-            <td><a href="\participante_equipe_apoio\{{row[0]}}">Ver equipe</a></td>
+            <td><button type="button" class="btn btn-primary"><a href="\participante_equipe_apoio\{{row[0]}}">Ver equipe</a></button></td>
         </tr>
         {%endfor%}
     </tbody>
