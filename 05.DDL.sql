@@ -154,7 +154,7 @@ CREATE TABLE doacao_pf
 
 CREATE TABLE doacao_pj
 (
-	CNPJ varchar(11),
+	CNPJ varchar(14),
 	cod_candidatura integer,
 	valor real,
 	check(valor > 0),
@@ -223,7 +223,7 @@ CREATE TRIGGER ano_pleito
 BEFORE INSERT ON pleito
 
 FOR EACH ROW EXECUTE PROCEDURE ano_pleito();
-
+/*
 --verifica quantidade de eleitos
 CREATE OR REPLACE FUNCTION max_eleitos() RETURNS TRIGGER AS $max_eleitos$
 DECLARE
@@ -251,7 +251,7 @@ CREATE TRIGGER max_eleitos
 BEFORE INSERT or UPDATE ON pleito
 
 FOR EACH ROW EXECUTE PROCEDURE max_eleitos();
-
+*/
 -- --2 -> ATUALIZA STATUS FICHA LIMPA DO INDIVIDUO
 CREATE OR REPLACE FUNCTION processos_individuo() RETURNS TRIGGER AS $processos_individuo$
 BEGIN
