@@ -265,7 +265,7 @@ INSERT INTO pleito VALUES(21,12958,false);
 INSERT INTO pleito VALUES(22,12230807,true);
 INSERT INTO pleito VALUES(23,12102,false);
 /*
-23 linhas, quantidade tem que ser igual a quantidade em candidatura
+23 linhas
 INSERT INTO pleito VALUES(24,11105874,true);
 INSERT INTO pleito VALUES(25,52017,false);
 INSERT INTO pleito VALUES(26,356539,'2º turno');
@@ -293,9 +293,6 @@ INSERT INTO pleito VALUES(47,40113,false);
 INSERT INTO pleito VALUES(48,24892,true);
 INSERT INTO pleito VALUES(49,461736,true);
 */
-
-
---NAO TESTADO A PARTIR DAQUI
 
 --individuos participantes de doaçao pessoa fisica
 INSERT INTO individuo VALUES('Ingaberg Hauger','73827920794',DEFAULT);
@@ -355,7 +352,7 @@ INSERT INTO doacao_pf VALUES(DEFAULT,'47035551608',21,670464);
 INSERT INTO doacao_pf VALUES(DEFAULT,'46517826673',22,272408);
 INSERT INTO doacao_pf VALUES(DEFAULT,'38321692423',23,771766);
 /*
-23 linhas, tem que ser igual candidatura
+23 linhas
 INSERT INTO doacao_pf VALUES(DEFAULT,'56661397079',24,570595);
 INSERT INTO doacao_pf VALUES(DEFAULT,'57417731961',25,91755);
 INSERT INTO doacao_pf VALUES(DEFAULT,'77370916607',26,872647);
@@ -424,7 +421,7 @@ INSERT INTO doacao_pj VALUES('73773266290271',21,3341097);
 INSERT INTO doacao_pj VALUES('55091205667694',22,4717205);
 INSERT INTO doacao_pj VALUES('38036552818158',23,6443633);
 /*
-23 linhas, tem que ser igual candidatura
+23 linhas
 INSERT INTO doacao_pj VALUES('14906912364335',24,6419647);
 INSERT INTO doacao_pj VALUES('49476029298422',25,8577540);
 INSERT INTO doacao_pj VALUES('97285995865873',26,5118455);
@@ -497,7 +494,7 @@ INSERT INTO participante_equipe_apoio VALUES(DEFAULT , '92931093964' , 27 , 2016
 INSERT INTO participante_equipe_apoio VALUES(DEFAULT , '50180251416' , 28 , 2016);
 INSERT INTO participante_equipe_apoio VALUES(DEFAULT , '76155179930' , 29 , 2014);
 INSERT INTO participante_equipe_apoio VALUES(DEFAULT , '27404990433' , 30 , 2014);
---somente 23 linhas igual candidatura
+--somente 23 linhas
 */
 -- processo_judicial (default,CPF,status_procedente,data_julgamento)
 INSERT INTO individuo VALUES('Bibby Ayree','50484484677',DEFAULT);
