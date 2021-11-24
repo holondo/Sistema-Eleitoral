@@ -93,7 +93,22 @@ def doacao_pj():
 @app.route('/candidatura/')
 def candidatura():
     orderBy = request.args.get('orderBy', default='ano', type=str)
-    headers, rows = getTable('select c.cod_candidatura, i.nome, i.cpf, c.nome_cargo, c.localidade, c.ano from candidatura c join individuo i on i.cpf = c.cpf_candidato order by %s'%orderBy)
+    query = '''select c.cod_candidatura, i.nome, i.cpf, c.nome_cargo, 
+        case 
+            when l.tipo = 'cidade' then ci.nome
+            when l.tipo = 'estado' then e.nome
+            when l.tipo = 'federacao' then f.nome
+        end as Localidade,
+        c.ano 
+        from candidatura c 
+        join individuo i on i.cpf = c.cpf_candidato
+        join
+        (localidade l
+        left join federacao f on l.id = f.id
+        left join estado e on l.id = e.id
+        left join cidade ci on ci.id = l.id) on l.id = localidade
+        order by %s'''
+    headers, rows = getTable(query%orderBy)
     return render_template("candidatura.html", tablename="candidatura", tableHeaders=headers, tableData=rows)
 
 @app.route('/pleito/<id>/')
@@ -115,9 +130,7 @@ def participante_equipe_apoio(candidatura):
 def delete_entity(tablename, id):
     key = request.args.get('key', default='id', type=str)
     cursor.execute('delete from %s where %s = %s', (AsIs(tablename), AsIs(key), id))
-    # try:
-    # except psycopg2.Error as e:
-    #     return render_template('index.html', message= "Resolva as pendencias deste registro antes de o deletar")
+    #connection.commit()
     
     return redirect(request.referrer)
 
@@ -126,9 +139,7 @@ def delete_relation(tablename, id1, id2):
     key1 = request.args.get('key1', default='id', type=str)
     key2 = request.args.get('key2', default='id', type=str)
     cursor.execute('delete from %s where %s = %s and %s = %s', (AsIs(tablename), AsIs(key1), id1, AsIs(key2), id2))
-    # try:
-    # except psycopg2.Error as e:
-    #     return render_template('index.html', message= "Resolva as pendencias deste registro antes de o deletar")
+    #connection.commit()
     
     return redirect(request.referrer)
 
