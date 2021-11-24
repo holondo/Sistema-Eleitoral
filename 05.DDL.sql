@@ -1,4 +1,7 @@
 
+CREATE DOMAIN papel AS VARCHAR(10)
+CHECK (VALUE IN ('Apoio','Doador','Candidato','Sem função'));
+
 CREATE TABLE individuo
 (
 	nome VARCHAR(100) NOT NULL,
@@ -258,11 +261,13 @@ BEGIN
 		PERFORM * FROM processo_judicial WHERE CPF = OLD.CPF;
 		IF NOT FOUND THEN
 			UPDATE individuo SET status_limpa = TRUE WHERE CPF = OLD.CPF;
-		END IF;
+			raise notice 'Individuo agora eh ficha limpa';
+	END IF;
 	ELSIF(TG_OP = 'UPDATE' OR TG_OP = 'INSERT') THEN
 		IF NEW.status_procedente = TRUE THEN
-			IF NEW.data_julgamento >= (CURRENT_DATE - 5) THEN
+			IF NEW.data_julgamento >= (CURRENT_DATE - (5 * 365)) THEN
 				UPDATE individuo SET status_limpa = FALSE WHERE CPF = NEW.CPF;
+				raise notice 'Individuo agora eh ficha suja';
 			END IF;
 		END IF;
 	END IF;
@@ -332,7 +337,7 @@ BEGIN
 	--VERIFICA SE INDIVIDUO JA PARTICIPA DE EQUIPE DE APOIO NO ANO
 	PERFORM * FROM participante_equipe_apoio WHERE CPF = NEW.CPF AND ANO = NEW.ANO;
 	IF FOUND THEN
-		RAISE EXCEPTION 'Individuo ja participa de uma equipe de apoio neste ano';
+		RAISE EXCEPTION 'Individuo ja participa desta equipe de apoio ou outra neste ano';
 		RETURN NULL;
 	END IF;
     RETURN NEW;

@@ -96,9 +96,14 @@ def candidatura():
     headers, rows = getTable('select c.cod_candidatura, i.nome, i.cpf, c.nome_cargo, c.localidade, c.ano from candidatura c join individuo i on i.cpf = c.cpf_candidato order by %s'%orderBy)
     return render_template("candidatura.html", tablename="candidatura", tableHeaders=headers, tableData=rows)
 
+@app.route('/pleito/<id>/')
+def pleito(id):
+    headers, rows = getTable('select cod_candidatura, num_votos as "Numero de votos", case when resultado = true then \'Eleito\' else \'Não Eleito\' end as Resultado, ano from pleito where cod_candidatura = %s'%id)
+    return render_template("table_entity.html", tablename="pleito", tableHeaders=headers, tableData=rows)
+
 @app.route('/participante_equipe_apoio')
 def equipe_apoio():
-    headers, rows = getTable('select cod_candidatura, count(cpf) as Numero_Participantes from participante_equipe_apoio group by cod_candidatura')
+    headers, rows = getTable('select p.cod_candidatura, i.nome as "Nome Candidato", count(p.cpf) as Numero_Participantes from participante_equipe_apoio p natural join candidatura c join individuo i on i.cpf = c.CPF_candidato group by cod_candidatura, i.nome')
     return render_template("equipes.html", tableHeaders=headers, tableData=rows)    
 
 @app.route('/participante_equipe_apoio/<candidatura>')

@@ -15,6 +15,7 @@
         {% for data in row%}
         <td>{{data}}</td>
         {% endfor %}
+        <td><button class="btn btn-sm btn-info btn-menu" type="button"><a href="\pleito\{{row[0]}}\">Pleito</a></button></td>
         <td><button class="btn btn-sm btn-danger btn-menu" type="button"><a href="\delete\{{tablename}}\{{row[0]}}\?key={{tableHeaders[0]}}">Excluir</a></button></td>
     </tr>
     {%endfor%}
